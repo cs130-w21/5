@@ -1,21 +1,11 @@
-language: bash
+matrix:
+  include:
+    - language: bash
+      python: 3.6
+      install:
+      - pip install -r ./backend/requirements.txt
 
-install:
-- sudo add-apt-repository ppa:deadsnakes/ppa --force-yes
-- sudo apt install python3.8 python3-pip --force-yes
-- pip install -r ./backend/requirements.txt
-
-script:
-# You can add any script with sh command to run any scripts in the repo you want 
-- echo "---- Start Running Backend Unit Tests ----"
-- cd ./backend/test
-- PYTHONPATH=.. pytest -v
-
-
-# Not sure what needs to be done in deploy yet 
-# deploy:
-# - echo "---- Starting Deploy Process ----"
-
-# after_deploy:
-# - echo "Deployment is successful."
-
+      script:
+      - echo "---- Start Running Backend Unit Tests ----"
+      - cd ./backend/test
+      - PYTHONPATH=.. pytest -v
