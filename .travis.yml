@@ -1,8 +1,8 @@
 language: bash
 
 install:
-- sudo add-apt-repository ppa:deadsnakes/ppa
-- sudo apt install python3.8 python3-pip
+- sudo add-apt-repository ppa:deadsnakes/ppa --force-yes
+- sudo apt install python3.8 python3-pip --force-yes
 - pip install -r ./backend/requirements.txt
 
 script:
