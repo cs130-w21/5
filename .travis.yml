@@ -1,8 +1,15 @@
-language: bash 
+language: bash
+
+install:
+- sudo apt-get install python3.8 python3-pip
+- pip install -r ./backend/requirements.txt
 
 script:
 # You can add any script with sh command to run any scripts in the repo you want 
-- echo "---- Start Running Test Scripts ----"
+- echo "---- Start Running Backend Unit Tests ----"
+- cd ./backend/test
+- PYTHONPATH=.. pytest -v
+
 
 # Not sure what needs to be done in deploy yet 
 # deploy:
