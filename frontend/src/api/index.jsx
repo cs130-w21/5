@@ -1,4 +1,4 @@
-const HOST = "http://localhost:3001";
+const HOST = "http://localhost:5000/api/";
 
 const POST = async (endpoint, data, extraOptions) => {
   const response = await fetch(HOST + endpoint, {
@@ -42,7 +42,7 @@ export const signUpUser = async (
   password,
   isTutor
 ) => {
-  const res = await POST("/signUp", {
+  const res = await POST("/auth/signUp", {
     firstName,
     lastName,
     email,
