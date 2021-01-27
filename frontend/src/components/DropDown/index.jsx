@@ -1,10 +1,8 @@
 // Need to npm install react-select@3.1.0
 import Select from 'react-select';
-import styles from "./styles";
 
-// Replace this array with the full class list from UCLA later
+// Replace this array with the full class list from UCLA registar 
 // Dummy value in the array 
-// Style is off 
 const classesUCLA = [
   { label: 'CS 130', value: 'CS 130' },
   { label: 'Lin 170', value: 'Lin 170' },
@@ -14,11 +12,14 @@ const classesUCLA = [
   { label: 'Chem 100', value: 'Chem 100' },
 ];
 
-const AppDropDown = ({children, style}) => {
+function AppDropDown () {
     return (
-        <Select style={{ ...styles.button, ...style }} 
-            options={classesUCLA}>
-        </Select>
+        <div style={{width: '200px'}}>
+            <Select
+            options={classesUCLA}
+            onChange={opt => console.log(opt.label, opt.value)}
+            />
+        </div>
     )
 };
 
