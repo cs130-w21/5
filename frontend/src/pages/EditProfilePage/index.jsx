@@ -3,6 +3,7 @@ import PageFrame from "../../components/PageFrame";
 import AppTextInput from "../../components/AppTextInput";
 import AppButton from "../../components/AppButton";
 import Text from "../../components/Text";
+// Rememner to revert this back and call this down
 import AppDropDown from "../../components/DropDown";
 import { useState } from "react";
 
@@ -54,6 +55,7 @@ const EditProfilePage = () => {
               onInput={(e) => setEditYear(e.target.value)}
             />
           <Text>Classes</Text>
+          
           <AppDropDown></AppDropDown>
           
         <AppButton>Save Changes</AppButton>

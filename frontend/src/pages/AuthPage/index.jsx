@@ -6,6 +6,7 @@ import Text from "../../components/Text";
 import ToggleSwitch from "../../components/ToggleSwitch";
 import { themeColors, AuthStates } from "../../config";
 import { signUpUser } from "../../api";
+import { signInRequest } from "../../api";
 import { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 
@@ -26,11 +27,24 @@ const AuthPage = ({ uid, setUid }) => {
       const data = res.data;
       setUid(data.uid);
     }
+    // Qs: Are you referring it is edit_profile?
     history.push("/eidt_profile/" + uid);
   };
+
+  // QS: How do you test this all out? 
+  // Updated version of handleSignIn 
+  // This will block to see the auto sign in to the Joe Bruin Page 
   const handleSignIn = async () => {
+    const res = await signInRequest(email, passwd);
+    if (res.error) {
+      console.log(res.errMsg);
+    } else {
+      const data = res.data;
+      setUid(data.uid);
+    }
     history.push("/profile/" + uid);
-  };
+  }
+
   switch (authState) {
     case AuthStates.SIGNIN:
       return (

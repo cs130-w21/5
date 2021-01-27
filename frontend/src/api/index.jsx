@@ -1,4 +1,4 @@
-const HOST = "http://localhost:5000/api";
+const HOST = "http://localhost:8080/api";
 
 const POST = async (endpoint, data, extraOptions) => {
   const response = await fetch(HOST + endpoint, {
@@ -55,3 +55,27 @@ export const signUpUser = async (
   const data = await res.json();
   return createSuccess(data);
 };
+
+// Double check with the POST URL for sign in endpoint 
+// I need to send in the email and password 
+// Backend check and pull out that user info 
+// Get a flag confirmed yes sent from backend then redirect to personal profile page 
+export const signInRequest = async (
+  email,
+  password
+) => {
+  const res = await POST("/auth/signIn", {
+    email, 
+    password
+  });
+
+  if (res.status !== 200) {
+    return createError(res, "Status Error: " + res.status);
+  }
+
+  // Local test 
+  // Hard code a 200 to test out if the sign in button is able to redirect to the profile page
+
+  const data = await res.json();
+  return createSuccess(data);
+}
