@@ -15,6 +15,9 @@ def test_register(client, app):
     response = client.post(url, data=data)
     assert response.status_code == 302
 
+    response = client.post(url, data=None)
+    assert response.status_code == 400
+
 # Testing the login() api
 def test_login(client, app):
     url = 'api/auth/login'
@@ -27,6 +30,9 @@ def test_login(client, app):
     response = client.post(url, data=data)
     assert response.status_code == 200
 
+    response = client.post(url, data=None)
+    assert response.status_code == 400
+
 def test_forgot(client, app):
     url = 'api/auth/forgot'
     json_data = {
@@ -36,6 +42,9 @@ def test_forgot(client, app):
     data = json.dumps(json_data)
     response = client.post(url, data=data)
     assert response.status_code == 200
+
+    response = client.post(url, data=None)
+    assert response.status_code == 400
 
 def test_logout(client, app):
     url = 'api/auth/forgot'
