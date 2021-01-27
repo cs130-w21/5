@@ -42,6 +42,7 @@ export const signUpUser = async (
   password,
   isTutor
 ) => {
+
   const res = await POST("/auth/register", {
     firstName,
     lastName,
@@ -66,3 +67,4 @@ export const forgotPwd = async (email) => {
   const data = await res.json();
   return createSuccess(data);
 };
+
