@@ -8,6 +8,7 @@ import { useState } from "react";
 
 const EditProfilePage = () => {
   // defined useState for the fields in the edit profile page
+
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
