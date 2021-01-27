@@ -3,6 +3,7 @@ from flask import (
     Blueprint, flash, g, redirect, render_template, request, session, url_for, current_app
 )
 from werkzeug.security import check_password_hash, generate_password_hash
+import sys
 
 bp = Blueprint('auth', __name__, url_prefix='/api/auth')
 
@@ -11,11 +12,13 @@ bp = Blueprint('auth', __name__, url_prefix='/api/auth')
 def register():
     r = current_app.config['RDSCXN']
     if request.method == 'POST':
-        fname = request.form['firstName']
-        lname = request.form['lastName']
-        email = request.form['email']
-        password = request.form['password']
-        isTutor = int(request.form['isTutor']=="True")
+        data = request.get_json(force=True)
+        fname = data['firstName']
+        lname = data['lastName']
+        email = data['email']
+        password = data['password']
+        isTutor = int(data['isTutor'])
+        print(fname,lname,email,password,isTutor,file=sys.stderr)
         error = None
 
         if not fname:
@@ -39,6 +42,7 @@ def register():
             r.bgsave()
             return redirect(url_for('auth.login'))
 
+        print(error)
         flash(error)
 
     return '', 200
@@ -47,8 +51,9 @@ def register():
 def login():
     r = current_app.config['RDSCXN']
     if request.method == 'POST':
-        email = request.form['email']
-        password = request.form['password']
+        data = request.get_json(force=True)
+        email = data['email']
+        password = data['password']
         # db = get_db()
         error = None
         # user = db.execute(
@@ -71,6 +76,7 @@ def login():
             session['user_id'] = user['uid']
             return redirect(url_for('index'))
 
+        print(error, file=sys.stderr)
         flash(error)
 
     return '', 200
@@ -79,7 +85,8 @@ def login():
 def forgot():
     r = current_app.config['RDSCXN']
     if request.method == 'POST':
-        email = request.form['email']
+        data = request.get_json(force=True)
+        email = data['email']
 
         error = None
 
@@ -103,7 +110,8 @@ def forgot():
 def reset ():
     r = current_app.config['RDSCXN']
     if request.method == 'POST':
-        email = request.form['password']
+        data = request.get_json(force=True)
+        email = data['password']
 
         error = None
 
