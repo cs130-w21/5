@@ -3,7 +3,6 @@ from flask import (
     Blueprint, flash, g, redirect, render_template, request, session, url_for, current_app
 )
 from werkzeug.security import check_password_hash, generate_password_hash
-import sys
 
 bp = Blueprint('auth', __name__, url_prefix='/api/auth')
 
@@ -18,7 +17,6 @@ def register():
         email = data['email']
         password = data['password']
         isTutor = int(data['isTutor'])
-        print(fname,lname,email,password,isTutor,file=sys.stderr)
         error = None
 
         if not fname:
@@ -42,7 +40,6 @@ def register():
             redis_client.bgsave()
             return redirect(url_for('auth.login'))
 
-        print(error)
         flash(error)
 
     return '', 200
@@ -76,7 +73,6 @@ def login():
             session['user_id'] = user['uid']
             return redirect(url_for('index'))
 
-        print(error, file=sys.stderr)
         flash(error)
 
     return '', 200
