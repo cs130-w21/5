@@ -5,15 +5,19 @@ import fakeredis
 from flask import Flask
 import auth, profile
 
-
 @pytest.fixture
 def app():
     app = Flask(__name__, instance_relative_config=True)
 
     server = fakeredis.FakeServer()
     fr = fakeredis.FakeStrictRedis(server=server)
+    fr.set('next_uid', 1)
+    fr.set('next_pid', 1)
+    fr.bgsave()
+
     app.config.from_mapping(
-            RDSCXN = fr
+        SECRET_KEY = 'dev',
+        RDSCXN = fr,
     )
 
     app.register_blueprint(auth.bp)

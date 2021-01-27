@@ -1,11 +1,43 @@
-import pytest
-from flask import Flask
-from auth import *
+import json
 
 
-# For now, this is an initial test for travis
+# Testing the register() api
 def test_register(client, app):
-    url = 'api/auth/register'
-    data = {'fname':'joe', 'lname':'bruin', 'email':'joebruin@gmail.com', 'password':'goBru1ns', 'isTutor':'false'}
+    url = 'api/auth/signUp'
+    json_data = {
+        "firstName": "joe" ,
+        "lastName": "bruin", 
+        "email": "joebruin@gmail.com",
+        "password": "goBru1ns",
+        "isTutor": False
+    }
+    data = json.dumps(json_data)
     response = client.post(url, data=data)
     assert response.status_code == 302
+
+# Testing the login() api
+def test_login(client, app):
+    url = 'api/auth/login'
+    json_data = {
+        "email": "joebruin@gmail.com",
+        "password": "goBru1ns"
+    }
+
+    data = json.dumps(json_data)
+    response = client.post(url, data=data)
+    assert response.status_code == 200
+
+def test_forgot(client, app):
+    url = 'api/auth/forgot'
+    json_data = {
+        "email": "joebruin@gmail.com"
+    }
+
+    data = json.dumps(json_data)
+    response = client.post(url, data=data)
+    assert response.status_code == 200
+
+def test_logout(client, app):
+    url = 'api/auth/forgot'
+    response = client.get(url)
+    assert response.status_code == 200
