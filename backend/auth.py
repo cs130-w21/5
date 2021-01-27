@@ -5,14 +5,15 @@ from flask import (
 from werkzeug.security import check_password_hash, generate_password_hash
 
 bp = Blueprint('auth', __name__, url_prefix='/api/auth')
+from rdscli import r
 
 # TODO: why specify GET?
-@bp.route('/register', methods=('GET', 'POST'))
+@bp.route('/signUp', methods=('GET', 'POST'))
 def register():
-    redis_client = current_app.config['RDSCXN']
+    r = current_app.config['RDSCXN']
     if request.method == 'POST':
-        fname = request.form['fname']
-        lname = request.form['lname']
+        fname = request.form['firstName']
+        lname = request.form['lastName']
         email = request.form['email']
         password = request.form['password']
         isTutor = request.form['isTutor']
@@ -28,15 +29,15 @@ def register():
             error = 'Password is required.'
 
         else:
-            for uid in redis_client.keys("uid*"):
-                if email == redis_client.hget(uid, 'email'):
+            for uid in r.keys("uid*"):
+                if email == r.hget(uid, 'email'):
                     error = 'Email {} is already registered.'.format(email)
 
         if error is None:
-            next_uid = redis_client.get('next_uid')
-            redis_client.incr('next_uid')
-            redis_client.hmset("uid{}".format(next_uid), {'fname': fname, 'lname': lname, 'email': email, 'password': generate_password_hash(password), 'isTutor': isTutor, 'uid': "uid{}".format(next_uid)})
-            redis_client.bgsave()
+            next_uid = r.get('next_uid')
+            r.incr('next_uid')
+            r.hmset("uid{}".format(next_uid), {'fname': fname, 'lname': lname, 'email': email, 'password': generate_password_hash(password), 'isTutor': isTutor, 'uid': "uid{}".format(next_uid)})
+            r.bgsave()
             return redirect(url_for('auth.login'))
 
         flash(error)
@@ -45,7 +46,7 @@ def register():
 
 @bp.route('/login', methods=('GET', 'POST'))
 def login():
-    redis_client = current_app.config['RDSCXN']
+    r = current_app.config['RDSCXN']
     if request.method == 'POST':
         username = request.form['email']
         password = request.form['password']
@@ -55,8 +56,8 @@ def login():
         #     'SELECT * FROM user WHERE username = ?', (username,)
         # ).fetchone()
         user = None
-        for uid in redis_client.keys("uid*"):
-            u = redis_client.hgetall(uid)
+        for uid in r.keys("uid*"):
+            u = r.hgetall(uid)
             print(user)
             if u['email'] == email:
                 user = u
@@ -85,8 +86,8 @@ def forgot():
         error = None
 
         user = None
-        for uid in redis_client.keys("uid*"):
-            u = redis_client.hgetall(uid)
+        for uid in r.keys("uid*"):
+            u = r.hgetall(uid)
             print(user)
             if u['email'] == email:
                 user = u
@@ -115,7 +116,7 @@ def reset ():
             error = 'Invalid email.'
 
         if error is None:
-            redis_client.hset(uid, 'password', password)
+            r.hset(uid, 'password', password)
             return redirect(url_for('auth.login'))
 
     return '', 200
@@ -130,7 +131,7 @@ def load_logged_in_user():
         # g.user = get_db().execute(
         #     'SELECT * FROM user WHERE id = ?', (user_id,)
         # ).fetchone()
-        g.user = redis_client.hgetall(user_id)
+        g.user = r.hgetall(user_id)
 
 @bp.route('/logout')
 def logout():
