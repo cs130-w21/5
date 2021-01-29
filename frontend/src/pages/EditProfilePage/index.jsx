@@ -53,8 +53,7 @@ const EditProfilePage = () => {
           onInput={(e) => setEditYear(e.target.value)}
         />
         <Text>Classes</Text>
-        <AppDropDown></AppDropDown>
-
+        <AppDropDown />
         <AppButton>Save Changes</AppButton>
       </Frame>
     </PageFrame>
