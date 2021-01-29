@@ -27,13 +27,10 @@ const AuthPage = ({ uid, setUid }) => {
       const data = res.data;
       setUid(data.uid);
     }
-    // Qs: Are you referring it is edit_profile?
+
     history.push("/eidt_profile/" + uid);
   };
 
-  // QS: How do you test this all out? 
-  // Updated version of handleSignIn 
-  // This will block to see the auto sign in to the Joe Bruin Page 
   const handleSignIn = async () => {
     const res = await signInRequest(email, passwd);
     if (res.error) {
