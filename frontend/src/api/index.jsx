@@ -66,3 +66,15 @@ export const forgotPwd = async (email) => {
   const data = await res.json();
   return createSuccess(data);
 };
+
+export const resetPwd = async (password, secret) => {
+  const res = await POST("/auth/reset", {
+    secret,
+    password,
+  });
+  if (res.status !== 200) {
+    return createError(res, "Status Error: " + res.status);
+  }
+  const data = await res.json();
+  return createSuccess(data);
+};
