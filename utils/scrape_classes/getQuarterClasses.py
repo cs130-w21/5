@@ -15,17 +15,17 @@ QuarterSubjectAreaClasses = []
 def main():
 	# Setup
 	if len(sys.argv) != 1:
-		sys.stderr.write("Error: Usage is python3 getMasterClasses.py\n")
+		sys.stderr.write("Error: Usage is python3 getQuarterClasses.py\n")
 		sys.exit(1)
 	if os.path.exists("WinterQuarterClasses.csv"):
 		os.remove("WinterQuarterClasses.csv")
 	
-	# Get all links to check
 	driver = webdriver.Chrome(ChromeDriverManager().install())
 	driver.get("https://www.registrar.ucla.edu/Academics/Course-Descriptions")
 	content = driver.page_source
 	soup = BeautifulSoup(content, features="html.parser")
 	
+	# Get all links to check
 	for link in soup.find_all('a'):
 		tempLink = str(link.get("href"))
 		if "funsel=3" in tempLink:

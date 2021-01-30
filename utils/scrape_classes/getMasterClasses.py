@@ -18,12 +18,12 @@ def main():
 	if os.path.exists("MasterClasses.csv"):
 		os.remove("MasterClasses.csv")
 	
-	# Get all links to check
 	driver = webdriver.Chrome(ChromeDriverManager().install())
 	driver.get("https://www.registrar.ucla.edu/Academics/Course-Descriptions")
 	content = driver.page_source
 	soup = BeautifulSoup(content, features="html.parser")
 	
+	# Get all links to check
 	for link in soup.find_all('a'):
 		tempLink = str(link.get("href"))
 		if "funsel=3" in tempLink:
@@ -72,7 +72,7 @@ def main():
 					try:
 						classNum = splitter[0]
 					except (IndexError):
-						sys.stderr.write("Error: Unable to read className")
+						sys.stderr.write("Error: Unable to read classNum")
 						classNum = ""
 					try:
 						className = splitter[1];
