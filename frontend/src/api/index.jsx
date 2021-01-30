@@ -42,7 +42,7 @@ export const signUpUser = async (
   password,
   isTutor
 ) => {
-  const res = await POST("/auth/signUp", {
+  const res = await POST("/auth/register", {
     firstName,
     lastName,
     email,
@@ -56,19 +56,49 @@ export const signUpUser = async (
   return createSuccess(data);
 };
 
-export const signInRequest = async (
-  email,
-  password
-) => {
-  const res = await POST("/auth/signIn", {
-    email, 
-    password
-  });
 
+export const forgotPwd = async (email) => {
+  const res = await POST("/auth/forgot", {
+    email,
+  });
   if (res.status !== 200) {
     return createError(res, "Status Error: " + res.status);
   }
-
   const data = await res.json();
   return createSuccess(data);
-}
+};
+
+export const resetPwd = async (password, secret) => {
+  const res = await POST("/auth/reset", {
+    secret,
+    password,
+  });
+  if (res.status !== 200) {
+    return createError(res, "Status Error: " + res.status);
+  }
+  const data = await res.json();
+  return createSuccess(data);
+};
+
+export const editProfile = async (
+  firstName,
+  lastName,
+  email,
+  major,
+  year,
+  classes
+) => {
+  const res = await POST("/profile/edit", {
+    firstName,
+    lastName,
+    email,
+    major,
+    year,
+    classes,
+  });
+  if (res.status !== 200) {
+    return createError(res, "Status Error: " + res.status);
+  }
+  const data = await res.json();
+  return createSuccess(data);
+};

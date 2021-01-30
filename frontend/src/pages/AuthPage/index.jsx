@@ -5,8 +5,7 @@ import AppButton from "../../components/AppButton";
 import Text from "../../components/Text";
 import ToggleSwitch from "../../components/ToggleSwitch";
 import { themeColors, AuthStates } from "../../config";
-import { signUpUser } from "../../api";
-import { signInRequest } from "../../api";
+import { signUpUser, forgotPwd } from "../../api";
 import { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 
@@ -19,16 +18,16 @@ const AuthPage = ({ uid, setUid }) => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [isTutor, setIsTutor] = useState(false);
+
   const handleSignUp = async () => {
     const res = await signUpUser(firstName, lastName, email, passwd, isTutor);
     if (res.error) {
-      console.log(res.errMsg);
+      // TO DO: notify the error
     } else {
       const data = res.data;
       setUid(data.uid);
     }
-
-    history.push("/eidt_profile/" + uid);
+    history.push("/edit_profile/" + uid);
   };
 
   const handleSignIn = async () => {
@@ -40,7 +39,16 @@ const AuthPage = ({ uid, setUid }) => {
       setUid(data.uid);
     }
     history.push("/profile/" + uid);
-  }
+  };
+
+  const handleResetPassword = async () => {
+    const res = await forgotPwd(email);
+    if (res.error) {
+      // TO DO: notify the error
+    } else {
+      // TO DO: notify the email
+    }
+  };
 
   switch (authState) {
     case AuthStates.SIGNIN:
@@ -163,9 +171,7 @@ const AuthPage = ({ uid, setUid }) => {
               type={"email"}
               onInput={(e) => setEmail(e.target.value)}
             />
-            <AppButton onClick={() => history.push("/reset/" + uid)}>
-              Send
-            </AppButton>
+            <AppButton onClick={handleResetPassword}>Send</AppButton>
             <AppButton
               style={{
                 backgroundColor: "transparent",
