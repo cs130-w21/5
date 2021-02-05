@@ -3,7 +3,7 @@ import json
 
 # Testing the register() api
 def test_register(client, app):
-    url = 'api/auth/signUp'
+    url = 'api/auth/register'
     json_data = {
         "firstName": "joe" ,
         "lastName": "bruin",
@@ -14,7 +14,7 @@ def test_register(client, app):
     data = json.dumps(json_data)
     response = client.post(url, data=data)
     assert response.status_code == 200
-    response_json = response.json()
+    response_json = response.json
     assert not response_json['error']
 
     response = client.post(url, data=None)
@@ -22,6 +22,7 @@ def test_register(client, app):
 
 # Testing the login() api
 def test_login(client, app):
+    test_register(client, app)
     url = 'api/auth/login'
     json_data = {
         "email": "joebruin@gmail.com",
@@ -31,7 +32,7 @@ def test_login(client, app):
     data = json.dumps(json_data)
     response = client.post(url, data=data)
     assert response.status_code == 200
-    response_json = response.json()
+    response_json = response.json
     assert not response_json['error']
 
     response = client.post(url, data=None)
