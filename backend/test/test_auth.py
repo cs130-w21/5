@@ -14,6 +14,8 @@ def test_register(client, app):
     data = json.dumps(json_data)
     response = client.post(url, data=data)
     assert response.status_code == 200
+    response_json = response.json()
+    assert not response_json['error']
 
     response = client.post(url, data=None)
     assert response.status_code == 400
@@ -29,6 +31,8 @@ def test_login(client, app):
     data = json.dumps(json_data)
     response = client.post(url, data=data)
     assert response.status_code == 200
+    response_json = response.json()
+    assert not response_json['error']
 
     response = client.post(url, data=None)
     assert response.status_code == 400
