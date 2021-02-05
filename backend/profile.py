@@ -45,3 +45,27 @@ def register():
         flash(error)
 
     return '', 200
+
+@bp.route('/get', methods=('GET', 'POST'))
+def get():
+    redis_client = current_app.config['RDSCXN']
+    if request.method == 'POST':
+        data = request.get_json(force=True)
+        uid = data['uid']
+        error = None
+        user = redis_client.hgetall("user{}".format(uid))
+        if user is None:
+            error = "User with UID {} not found".format(uid)
+
+        if error is None:
+            classes = redis_client.lrange("classes{}".format(uid), 0, -1)
+            return json.dumps({'error': False,
+            'firstName': user['fname'],
+            'lastName': user['lname'],
+            'year': user['year'] if 'year' in user.keys() else None,
+            'major': user['major'] if 'major' in user.keys() else None,
+            'classes': classes}), 200, {'ContentType':'application/json'}
+
+        return json.dumps({'error': True, 'errMsg': error}), 200, {'ContentType':'application/json'}
+
+    return '', 200
