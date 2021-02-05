@@ -4,10 +4,10 @@ import TextBox from "../TextBox";
 import { sendMsg } from "../../api";
 import { useState } from "react";
 
-const MsgSection = ({ uid, targetUid }) => {
+const MsgSection = ({ uid, hostUid }) => {
   const [msg, setMsg] = useState("");
   const handleClick = async () => {
-    const res = await sendMsg(uid, targetUid, msg);
+    const res = await sendMsg(uid, hostUid, msg);
     if (!res.error) {
       setMsg("");
       window.alert("Message sent!");

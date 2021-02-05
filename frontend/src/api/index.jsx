@@ -1,4 +1,4 @@
-const HOST = "http://localhost:5000/api";
+const HOST = "http://localhost:8080/api";
 
 const POST = async (endpoint, data, extraOptions) => {
   const response = await fetch(HOST + endpoint, {
@@ -42,52 +42,84 @@ export const signUpUser = async (
   password,
   isTutor
 ) => {
-  const res = await POST("/auth/register", {
-    firstName,
-    lastName,
-    email,
-    password,
-    isTutor,
-  });
-  if (res.status !== 200) {
-    return createError(res, "Status Error: " + res.status);
+  try {
+    const res = await POST("/auth/register", {
+      firstName,
+      lastName,
+      email,
+      password,
+      isTutor,
+    });
+    if (res.status !== 200) {
+      return createError(res, "Status Error: " + res.status);
+    }
+    const data = await res.json();
+    if (data.error) {
+      return createError(null, data.errMsg);
+    } else {
+      return createSuccess(data.payload);
+    }
+  } catch (e) {
+    return createError(e, "server disconnected");
   }
-  const data = await res.json();
-  if (data.error) {
-    return createError(null, data.errMsg);
-  } else {
-    return createSuccess(data);
+};
+
+export const signInRequest = async (email, password) => {
+  try {
+    const res = await POST("/auth/login", {
+      email,
+      password,
+    });
+    if (res.status !== 200) {
+      return createError(res, "Status Error: " + res.status);
+    }
+    const data = await res.json();
+    if (data.error) {
+      return createError(null, data.errMsg);
+    } else {
+      return createSuccess(data.payload);
+    }
+  } catch (e) {
+    return createError(e, "server disconnected");
   }
 };
 
 export const forgotPwd = async (email) => {
-  const res = await POST("/auth/forgot", {
-    email,
-  });
-  if (res.status !== 200) {
-    return createError(res, "Status Error: " + res.status);
-  }
-  const data = await res.json();
-  if (data.error) {
-    return createError(null, data.errMsg);
-  } else {
-    return createSuccess(data);
+  try {
+    const res = await POST("/auth/forgot", {
+      email,
+    });
+    if (res.status !== 200) {
+      return createError(res, "Status Error: " + res.status);
+    }
+    const data = await res.json();
+    if (data.error) {
+      return createError(null, data.errMsg);
+    } else {
+      return createSuccess(data.payload);
+    }
+  } catch (e) {
+    return createError(e, "server disconnected");
   }
 };
 
 export const resetPwd = async (password, secret) => {
-  const res = await POST("/auth/reset", {
-    secret,
-    password,
-  });
-  if (res.status !== 200) {
-    return createError(res, "Status Error: " + res.status);
-  }
-  const data = await res.json();
-  if (data.error) {
-    return createError(null, data.errMsg);
-  } else {
-    return createSuccess(data);
+  try {
+    const res = await POST("/auth/reset", {
+      secret,
+      password,
+    });
+    if (res.status !== 200) {
+      return createError(res, "Status Error: " + res.status);
+    }
+    const data = await res.json();
+    if (data.error) {
+      return createError(null, data.errMsg);
+    } else {
+      return createSuccess(data.payload);
+    }
+  } catch (e) {
+    return createError(e, "server disconnected");
   }
 };
 
@@ -100,40 +132,67 @@ export const editProfile = async (
   year,
   classes
 ) => {
-  const res = await POST("/profile/edit", {
-    uid,
-    firstName,
-    lastName,
-    email,
-    major,
-    year,
-    classes,
-  });
-  if (res.status !== 200) {
-    return createError(res, "Status Error: " + res.status);
-  }
-  const data = await res.json();
-  if (data.error) {
-    return createError(null, data.errMsg);
-  } else {
-    return createSuccess(data);
+  try {
+    const res = await POST("/profile/edit", {
+      uid,
+      firstName,
+      lastName,
+      email,
+      major,
+      year,
+      classes,
+    });
+    if (res.status !== 200) {
+      return createError(res, "Status Error: " + res.status);
+    }
+    const data = await res.json();
+    if (data.error) {
+      return createError(null, data.errMsg);
+    } else {
+      return createSuccess(data.payload);
+    }
+  } catch (e) {
+    return createError(e, "server disconnected");
   }
 };
 
 export const sendMsg = async (from, to, msg) => {
-  const res = await POST("/message/add", {
-    from,
-    to,
-    msg,
-    createdDate: new Date(),
-  });
-  if (res.status !== 200) {
-    return createError(res, "Status Error: " + res.status);
+  try {
+    const res = await POST("/message/add", {
+      from,
+      to,
+      msg,
+      createdDate: new Date(),
+    });
+    if (res.status !== 200) {
+      return createError(res, "Status Error: " + res.status);
+    }
+    const data = await res.json();
+    if (data.error) {
+      return createError(null, data.errMsg);
+    } else {
+      return createSuccess(data.payload);
+    }
+  } catch (e) {
+    return createError(e, "server disconnected");
   }
-  const data = await res.json();
-  if (data.error) {
-    return createError(null, data.errMsg);
-  } else {
-    return createSuccess(data);
+};
+
+export const getMsgs = async (uid) => {
+  try {
+    const res = await POST("/message/get", {
+      uid,
+    });
+    if (res.status !== 200) {
+      return createError(res, "Status Error: " + res.status);
+    }
+    const data = await res.json();
+    if (data.error) {
+      return createError(null, data.errMsg);
+    } else {
+      return createSuccess(data.payload);
+    }
+  } catch (e) {
+    return createError(e, "server disconnected");
   }
 };

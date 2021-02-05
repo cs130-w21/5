@@ -14,7 +14,9 @@ const TextBox = ({ style, text, changeText }) => {
         height: 100,
         padding: 10,
         borderRadius: 5,
+        fontSize: 15,
         backgroundColor: themeColors.lightgray,
+        overflow: "auto",
       }}
       ref={(ref) => (textBox.current = ref)}
       onInput={() => changeText(textBox.current.innerText)}
