@@ -40,9 +40,9 @@ def register():
             redis_client.incr('next_uid')
             redis_client.hmset("user{}".format(next_uid), {'fname': fname, 'lname': lname, 'email': email, 'password': generate_password_hash(password), 'isTutor': isTutor, 'uid': next_uid})
             redis_client.bgsave()
-            return json.dumps({'error': False}), 200, {'ContentType':'application/json'}
+            return json.dumps({'error': False}), 200, {'Content-Type':'application/json'}
 
-        return json.dumps({'error': True, 'errMsg': error}), 200, {'ContentType':'application/json'}
+        return json.dumps({'error': True, 'errMsg': error}), 200, {'Content-Type':'application/json'}
     return '', 200
 
 @bp.route('/login', methods=('GET', 'POST'))
@@ -60,7 +60,7 @@ def login():
         user = None
         for uid in redis_client.keys("user*"):
             u = redis_client.hgetall(uid)
-            if u is not None and u['email'] == email:
+            if u is not None and 'email' in u.keys() and u['email'] == email:
                 user = u
                 break
 
@@ -72,9 +72,9 @@ def login():
         if error is None:
             session.clear()
             session['user_id'] = user['uid']
-            return json.dumps({'error': False}), 200, {'ContentType':'application/json'}
+            return json.dumps({'error': False}), 200, {'Content-Type':'application/json'}
 
-        return json.dumps({'error': True, 'errMsg': error}), 200, {'ContentType':'application/json'}
+        return json.dumps({'error': True, 'errMsg': error}), 200, {'Content-Type':'application/json'}
     return '', 200
 
 @bp.route('/forgot', methods=('GET', 'POST'))
