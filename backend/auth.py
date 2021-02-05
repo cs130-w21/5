@@ -9,7 +9,7 @@ import json
 bp = Blueprint('auth', __name__, url_prefix='/api/auth')
 
 # TODO: why specify GET?
-@bp.route('/signUp', methods=('GET', 'POST'))
+@bp.route('/register', methods=('GET', 'POST'))
 def register():
     redis_client = current_app.config['RDSCXN']
     if request.method == 'POST':
