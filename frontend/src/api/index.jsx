@@ -53,7 +53,11 @@ export const signUpUser = async (
     return createError(res, "Status Error: " + res.status);
   }
   const data = await res.json();
-  return createSuccess(data);
+  if (data.error) {
+    return createError(null, data.errMsg);
+  } else {
+    return createSuccess(data);
+  }
 };
 
 export const forgotPwd = async (email) => {
@@ -64,7 +68,11 @@ export const forgotPwd = async (email) => {
     return createError(res, "Status Error: " + res.status);
   }
   const data = await res.json();
-  return createSuccess(data);
+  if (data.error) {
+    return createError(null, data.errMsg);
+  } else {
+    return createSuccess(data);
+  }
 };
 
 export const resetPwd = async (password, secret) => {
@@ -76,10 +84,15 @@ export const resetPwd = async (password, secret) => {
     return createError(res, "Status Error: " + res.status);
   }
   const data = await res.json();
-  return createSuccess(data);
+  if (data.error) {
+    return createError(null, data.errMsg);
+  } else {
+    return createSuccess(data);
+  }
 };
 
 export const editProfile = async (
+  uid,
   firstName,
   lastName,
   email,
@@ -88,6 +101,7 @@ export const editProfile = async (
   classes
 ) => {
   const res = await POST("/profile/edit", {
+    uid,
     firstName,
     lastName,
     email,
@@ -99,5 +113,27 @@ export const editProfile = async (
     return createError(res, "Status Error: " + res.status);
   }
   const data = await res.json();
-  return createSuccess(data);
+  if (data.error) {
+    return createError(null, data.errMsg);
+  } else {
+    return createSuccess(data);
+  }
+};
+
+export const sendMsg = async (from, to, msg) => {
+  const res = await POST("/message/add", {
+    from,
+    to,
+    msg,
+    createdDate: new Date(),
+  });
+  if (res.status !== 200) {
+    return createError(res, "Status Error: " + res.status);
+  }
+  const data = await res.json();
+  if (data.error) {
+    return createError(null, data.errMsg);
+  } else {
+    return createSuccess(data);
+  }
 };

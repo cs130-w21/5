@@ -65,7 +65,7 @@ const ProfilePage = ({ match, uid }) => {
                 major={profileInfo.major}
               />
             )}
-            <MsgSection />
+            <MsgSection uid={uid} targetUid={profileInfo.uid} />
           </Frame>
           <Frame>
             {profileInfo && <CourseSection classes={profileInfo.classes} />}

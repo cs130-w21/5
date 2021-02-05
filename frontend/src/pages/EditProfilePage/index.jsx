@@ -8,7 +8,7 @@ import Course from "../../components/Course";
 import { editProfile } from "../../api";
 import { useState } from "react";
 
-const EditProfilePage = () => {
+const EditProfilePage = ({ uid }) => {
   // defined useState for the fields in the edit profile page
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -32,6 +32,7 @@ const EditProfilePage = () => {
 
   const handleEditProfile = async () => {
     const res = await editProfile(
+      uid,
       firstName,
       lastName,
       email,
