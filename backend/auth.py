@@ -4,6 +4,8 @@ from flask import (
 )
 from werkzeug.security import check_password_hash, generate_password_hash
 
+import json
+
 bp = Blueprint('auth', __name__, url_prefix='/api/auth')
 
 # TODO: why specify GET?
@@ -38,10 +40,9 @@ def register():
             redis_client.incr('next_uid')
             redis_client.hmset("user{}".format(next_uid), {'fname': fname, 'lname': lname, 'email': email, 'password': generate_password_hash(password), 'isTutor': isTutor, 'uid': next_uid})
             redis_client.bgsave()
-            return redirect(url_for('auth.login'))
+            return json.dumps({'error': False}), 200, {'ContentType':'application/json'}
 
-        flash(error)
-
+        return json.dumps({'error': True, 'errMsg': error}), 200, {'ContentType':'application/json'}
     return '', 200
 
 @bp.route('/login', methods=('GET', 'POST'))
@@ -71,10 +72,9 @@ def login():
         if error is None:
             session.clear()
             session['user_id'] = user['uid']
-            return redirect(url_for('index'))
+            return json.dumps({'error': False}), 200, {'ContentType':'application/json'}
 
-        flash(error)
-
+        return json.dumps({'error': True, 'errMsg': error}), 200, {'ContentType':'application/json'}
     return '', 200
 
 @bp.route('/forgot', methods=('GET', 'POST'))
