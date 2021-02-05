@@ -31,9 +31,9 @@ def edit():
             redis_client.delete("classes{}".format(uid))
             for c in classes:
                 redis_client.rpush("classes{}".format(uid), c)
-            return json.dumps({'error': False}), 200, {'ContentType':'application/json'}
+            return json.dumps({'error': False}), 200, {'Content-Type':'application/json'}
 
-        return json.dumps({'error': True, 'errMsg': error}), 200, {'ContentType':'application/json'}
+        return json.dumps({'error': True, 'errMsg': error}), 200, {'Content-Type':'application/json'}
 
     return '', 200
 
@@ -51,12 +51,12 @@ def get():
         if error is None:
             classes = redis_client.lrange("classes{}".format(uid), 0, -1)
             return json.dumps({'error': False,
-            'firstName': user['fname'],
-            'lastName': user['lname'],
+            'firstName': user['fname'] if 'fname' in user.keys() else None,
+            'lastName': user['lname'] if 'lname' in user.keys() else None,
             'year': user['year'] if 'year' in user.keys() else None,
             'major': user['major'] if 'major' in user.keys() else None,
-            'classes': classes}), 200, {'ContentType':'application/json'}
+            'classes': classes}), 200, {'Content-Type':'application/json'}
 
-        return json.dumps({'error': True, 'errMsg': error}), 200, {'ContentType':'application/json'}
+        return json.dumps({'error': True, 'errMsg': error}), 200, {'Content-Type':'application/json'}
 
     return '', 200
