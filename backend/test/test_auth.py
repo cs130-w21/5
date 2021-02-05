@@ -6,14 +6,14 @@ def test_register(client, app):
     url = 'api/auth/signUp'
     json_data = {
         "firstName": "joe" ,
-        "lastName": "bruin", 
+        "lastName": "bruin",
         "email": "joebruin@gmail.com",
         "password": "goBru1ns",
         "isTutor": False
     }
     data = json.dumps(json_data)
     response = client.post(url, data=data)
-    assert response.status_code == 302
+    assert response.status_code == 200
 
     response = client.post(url, data=None)
     assert response.status_code == 400
