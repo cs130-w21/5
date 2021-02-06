@@ -56,7 +56,7 @@ def get():
             'year': user['year'] if 'year' in user.keys() else None,
             'major': user['major'] if 'major' in user.keys() else None,
             'classes': classes,
-            'isTutor': user['isTutor'] if 'isTutor' in user.keys() else None}), 200, {'Content-Type':'application/json'}
+            'isTutor': user['isTutor']=="1" if 'isTutor' in user.keys() else None}), 200, {'Content-Type':'application/json'}
 
         return json.dumps({'error': True, 'errMsg': error}), 200, {'Content-Type':'application/json'}
 
