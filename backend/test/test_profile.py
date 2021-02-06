@@ -52,6 +52,7 @@ def test_get(client, app):
     assert response_json['year'] == "2021"
     assert response_json['major'] == "CS"
     assert response_json['classes'] == ["CS 130", "CS 181"]
+    assert not response_json['isTutor']
 
     response = client.post(url, data=None)
     assert response.status_code == 400
