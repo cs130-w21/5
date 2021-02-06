@@ -64,7 +64,7 @@ def login():
                 user = u
                 break
 
-        if user is None:
+        if user is None or 'uid' not in user.keys():
             error = 'Invalid email.'
         elif not check_password_hash(user['password'], password):
             error = 'Incorrect password.'
@@ -72,7 +72,7 @@ def login():
         if error is None:
             session.clear()
             session['user_id'] = user['uid']
-            return json.dumps({'error': False}), 200, {'Content-Type':'application/json'}
+            return json.dumps({'error': False, 'uid': user['uid']}), 200, {'Content-Type':'application/json'}
 
         return json.dumps({'error': True, 'errMsg': error}), 200, {'Content-Type':'application/json'}
     return '', 200
