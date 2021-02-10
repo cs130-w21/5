@@ -158,12 +158,13 @@ export const editProfile = async (
 
 export const sendMsg = async (from, to, msg) => {
   try {
-    const res = await POST("/message/add", {
+    const newMsg = {
       from,
       to,
       msg,
       createdDate: new Date(),
-    });
+    };
+    const res = await POST("/message/add", newMsg);
     if (res.status !== 200) {
       return createError(res, "Status Error: " + res.status);
     }
@@ -171,17 +172,18 @@ export const sendMsg = async (from, to, msg) => {
     if (data.error) {
       return createError(null, data.errMsg);
     } else {
-      return createSuccess(data.payload);
+      return createSuccess(newMsg);
     }
   } catch (e) {
     return createError(e, "server disconnected");
   }
 };
 
-export const getMsgs = async (uid) => {
+export const getMsgs = async (uid1, uid2) => {
   try {
     const res = await POST("/message/get", {
-      uid,
+      uid1,
+      uid2,
     });
     if (res.status !== 200) {
       return createError(res, "Status Error: " + res.status);

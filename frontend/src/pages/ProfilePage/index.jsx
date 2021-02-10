@@ -29,8 +29,6 @@ const ProfilePage = ({ match, uid }) => {
         "PHYSICS 143",
         "CS 111",
       ],
-      messages: [],
-      notifications: [],
     });
   }, []);
   const setProfileUrl = (url) =>
@@ -70,7 +68,7 @@ const ProfilePage = ({ match, uid }) => {
                   major={profileInfo.major}
                 />
               )}
-              <MsgSection uid={uid} hostUid={profileInfo.uid} />
+              <MsgSection uid={uid} targetUid={profileInfo.uid} />
             </Frame>
             <Frame>
               {profileInfo && <CourseSection classes={profileInfo.classes} />}
