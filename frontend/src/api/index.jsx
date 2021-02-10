@@ -102,3 +102,45 @@ export const editProfile = async (
   const data = await res.json();
   return createSuccess(data);
 };
+
+
+export const getProfile = async (uid) =>
+{
+  try {
+    const res = await POST("/profile/get", {
+      uid,
+    });
+    if (res.status != 200) {
+      return createError(res, "Status Error: " + res.status);
+    }
+    const data = await res.json();
+    if (data.error) {
+      return createError(null, data.errMsg);
+    } else {
+      return createSuccess(data.payload);
+    }
+  } catch(e) {
+    return createError(e, "server disconnected.")
+  }
+}
+
+// Selected Class Category 
+export const getClassList = async (subjectArea) => {
+  try {
+
+    const res = await POST("/classList/get", {
+      subjectArea,
+    });
+    if (res.status != 200) {
+      return createError(res, "Status Error: " + res.status);
+    }
+    const data = await res.json();
+    if (data.error) {
+      return createError(null, data.errMsg);
+    } else {
+      return createSuccess(data.payload);
+    }
+  } catch(e) {
+    return createError(e, "server disconnected.")
+  }
+}
