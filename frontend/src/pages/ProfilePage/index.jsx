@@ -6,29 +6,58 @@ import CourseSection from "../../components/CourseSection";
 import CalendarSection from "../../components/CalendarSection";
 import ContactSection from "../../components/ContactSection";
 import { useEffect, useState } from "react";
+import { getProfile } from "../../api";
 
 const ProfilePage = ({ match, uid }) => {
   const [profileInfo, setProfileInfo] = useState();
-  useEffect(() => {
-    // TO DO: fetch user info from server
+  // Dummy values before fetch 
+  const [first_Name, setFirstName] = useState("Joe");
+  const [last_Name, setLastName] = useState("Bruin");
+  const [display_UID, setDisplayUID] = useState("test");
+  const [display_major, setMajor] = useState("All UCLA Major");
+  const [display_year, setYear] = useState("4");
+  // TODO: We have not set up the rating system 
+  const [display_rating, setRating] = useState("3");
+  const [display_classes, setClasses] = useState(
+    ["CS 111", "COMSCI 131",
+    "CS 130",
+    "MATH 143",
+    "CS 111",
+    "CHEM 131",
+    "CS 130",
+    "PHYSICS 143",
+  ],);
+
+  // Get the retreived profile information from the api call 
+  const handleGetProfile = async () => {
+    const res = await getProfile(uid);
+    if (res.error) {
+      console.log(res.errMsg);
+    } else {
+      const data = res.data;
+      // dummy values will be updated by the fetch data
+      setFirstName(data.firstName);
+      setLastName(data.lastName);
+      setDisplayUID(uid);
+      setMajor(data.major);
+      setYear(data.year);
+      setClasses(data.classes);
+    }
+  };
+
+  // fetch the data for profile 
+  handleGetProfile();
+
+  useEffect(() => {    
+    // API fetch data replaced   
     setProfileInfo({
-      uid: "test",
-      firstName: "Joe",
-      lastName: "Bruin",
-      major: "Computer Science",
-      year: 3,
-      rating: 3,
-      classes: [
-        "CS 111",
-        "COMSCI 131",
-        "CS 130",
-        "MATH 143",
-        "CS 111",
-        "CHEM 131",
-        "CS 130",
-        "PHYSICS 143",
-        "CS 111",
-      ],
+      uid: display_UID,
+      firstName: first_Name,
+      lastName: last_Name,
+      major: display_major,
+      year: display_year,
+      rating: display_rating,
+      classes: display_classes,
     });
   }, []);
   const setProfileUrl = (url) =>
