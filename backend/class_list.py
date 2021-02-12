@@ -13,7 +13,7 @@ def class_list():
         data = request.get_json(force=True)
         subjectArea = data['subjectArea']
         this_folder = os.path.dirname(os.path.abspath(__file__))
-        class_file = open(os.path.join(this_folder, 'resources/classes.csv'), mode='r', newline='')
+        class_file = open(os.path.join(this_folder, 'resources/classes.csv'), mode='r')
         reader = csv.reader(class_file)
 
         error = None
