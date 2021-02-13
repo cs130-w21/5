@@ -1,4 +1,5 @@
 import functools
+import flask
 from flask import (
     Blueprint, flash, g, redirect, render_template, request, session, url_for, current_app
 )
@@ -40,10 +41,12 @@ def register():
             redis_client.incr('next_uid')
             redis_client.hmset("user{}".format(next_uid), {'fname': fname, 'lname': lname, 'email': email, 'password': generate_password_hash(password), 'isTutor': isTutor, 'uid': next_uid})
             redis_client.bgsave()
-            return json.dumps({'error': False}), 200, {'Content-Type':'application/json'}
+            resp_body_json = json.dumps({'error': False})
+            return flask.Response(status=200, content_type='application/json', response=resp_body_json)
 
-        return json.dumps({'error': True, 'errMsg': error}), 200, {'Content-Type':'application/json'}
-    return '', 200
+        resp_body_json = json.dumps({'error': True, 'errMsg': error})
+        return flask.Response(status=200, content_type='application/json', response=resp_body_json)
+    return flask.Response(status=200, response='')
 
 @bp.route('/login', methods=('GET', 'POST'))
 def login():
@@ -72,10 +75,12 @@ def login():
         if error is None:
             session.clear()
             session['user_id'] = user['uid']
-            return json.dumps({'error': False, 'uid': user['uid']}), 200, {'Content-Type':'application/json'}
+            resp_body_json = json.dumps({'error': False, 'uid': user['uid']})
+            return flask.Response(status=200, content_type='application/json', response=resp_body_json)
 
-        return json.dumps({'error': True, 'errMsg': error}), 200, {'Content-Type':'application/json'}
-    return '', 200
+        resp_body_json = json.dumps({'error': True, 'errMsg': error})
+        return flask.Response(status=200, content_type='application/json', response=resp_body_json)
+    return flask.Response(status=200, response='')
 
 @bp.route('/forgot', methods=('GET', 'POST'))
 def forgot():
