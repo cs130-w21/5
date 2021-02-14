@@ -74,51 +74,10 @@ def login():
         return errorResponse(error)
     return errorResponse('POST to this endpoint')
 
-@bp.route('/forgot', methods=('GET', 'POST'))
-def forgot():
-    redis_client = current_app.config['RDSCXN']
-    if request.method == 'POST':
-        data = request.get_json(force=True)
-        email = data['email']
-
-        error = None
-
-        user = None
-        for uid in redis_client.keys("uid*"):
-            u = redis_client.hgetall(uid)
-            if u['email'] == email:
-                user = u
-                break
-
-        if user is None:
-            error = 'Invalid email.'
-
-        if error is None:
-            # TODO: send forgot password email
-            return redirect(url_for('auth.login'))
-
-    return '', 200
-
-@bp.route('/reset', methods=('GET', 'POST'))
-def reset ():
-    redis_client = current_app.config['RDSCXN']
-    if request.method == 'POST':
-        data = request.get_json(force=True)
-        email = data['password']
-
-        error = None
-
-        uid = None
-        # TODO:  figure out user
-
-        if uid is None:
-            error = 'Invalid email.'
-
-        if error is None:
-            redis_client.hset(uid, 'password', password)
-            return redirect(url_for('auth.login'))
-
-    return '', 200
+# a way for the frontend to get uid of currently logged in user, if avail
+@bp.route('/getuid')
+def getuid():
+    return jsonResponse({'uid': session.get('user_id')})
 
 @bp.before_app_request
 def load_logged_in_user():
