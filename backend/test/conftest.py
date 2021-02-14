@@ -12,7 +12,8 @@ def app():
     server = fakeredis.FakeServer()
     fr = fakeredis.FakeStrictRedis(server=server, decode_responses=True)
     fr.set('next_uid', 1)
-    fr.set('next_pid', 1)
+    fr.set('next_mid', 1)
+    fr.set('next_nid', 1)
     fr.bgsave()
 
     app.config.from_mapping(
