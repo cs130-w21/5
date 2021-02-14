@@ -10,27 +10,32 @@ bp = Blueprint('class_list', __name__, url_prefix='/api/classList')
 def class_list():
     response = None
     if request.method == 'GET':
-        data = request.get_json(force=True)
-        subjectArea = data['subjectArea']
-        this_folder = os.path.dirname(os.path.abspath(__file__))
-        class_file = open(os.path.join(this_folder, 'resources/classes.csv'), mode='r')
-        reader = csv.reader(class_file)
+        data = request.get_json()
 
-        error = None
+        if not data:
+            error = 'Data Body Required'
+            resp_body_json = json.dumps({'error': True, 'errMsg': error})
+            return flask.Response(status=200, content_type='application/json', response=resp_body_json)
+
+        subjectArea = data.get('subjectArea')
 
         if not subjectArea:
             error = 'Subject Area Required'
-            response = flask.Response(status=400, content_type='text/html', data=error)
-
+            resp_body_json = json.dumps({'error': True, 'errMsg': error})
+            return flask.Response(status=200, content_type='application/json', response=resp_body_json)
         else:
+            this_folder = os.path.dirname(os.path.abspath(__file__))
+            class_file = open(os.path.join(this_folder, 'resources/classes.csv'), mode='r')
+            reader = csv.reader(class_file)
+
             classes = []
             for row in reader:
                 if row[0] == subjectArea:
                     classes.append(row[0] + ' ' + row[2])
+
+            class_file.close()
             resp_body = {"error": False, "errMsg": None, "payload": {"classList": classes}}
             resp_body_json = json.dumps(resp_body)
-            response = flask.Response(status=200, content_type='application/json', response=resp_body_json)
+            return flask.Response(status=200, content_type='application/json', response=resp_body_json)
 
-        class_file.close()
-
-    return response
+    return '', 200
