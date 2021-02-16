@@ -19,5 +19,5 @@ export const AuthStates = {
 };
 
 export const icons = {
-  close: <CloseOutlined />,
+  close: <CloseOutlined style={{ color: "#FFFFFF" }} />,
 };

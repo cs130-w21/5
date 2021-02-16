@@ -8,13 +8,20 @@ export default {
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "stretch",
+    position: "relative",
+  },
+  title: {
+    backgroundColor: themeColors.darkblue,
+    color: themeColors.lightgray,
+    alignSelf: "stretch",
+    height: 30,
   },
   closeButton: {
     position: "absolute",
     top: 0,
     right: 0,
-    padding: 10,
-    fontSize: 20,
+    padding: 15,
+    fontSize: 15,
   },
   msgLine: {
     display: "flex",

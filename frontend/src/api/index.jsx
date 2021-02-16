@@ -156,6 +156,25 @@ export const editProfile = async (
   }
 };
 
+export const getProfile = async (uid) => {
+  try {
+    const res = await POST("/profile/get", {
+      uid,
+    });
+    if (res.status !== 200) {
+      return createError(res, "Status Error: " + res.status);
+    }
+    const data = await res.json();
+    if (data.error) {
+      return createError(null, data.errMsg);
+    } else {
+      return createSuccess(data.payload);
+    }
+  } catch (e) {
+    return createError(e, "server disconnected");
+  }
+};
+
 export const sendMsg = async (from, to, msg) => {
   try {
     const newMsg = {

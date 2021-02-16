@@ -3,6 +3,7 @@ import TouchableOpacity from "../TouchableOpacity";
 import Frame from "../Frame";
 import AppButton from "../AppButton";
 import TextBox from "../TextBox";
+import Text from "../Text";
 import styles from "./style.js";
 import { useState, useEffect } from "react";
 import { themeColors, icons } from "../../config.js";
@@ -29,7 +30,7 @@ const MsgLine = ({ message, uid, targetUid }) => {
   );
 };
 
-const MsgModal = ({ uid, targetUid, closeModal }) => {
+const MsgModal = ({ uid, targetUid, closeModal, userStore }) => {
   const [text, changeText] = useState("");
   const [messages, setMessages] = useState([]);
   useEffect(() => {
@@ -39,10 +40,7 @@ const MsgModal = ({ uid, targetUid, closeModal }) => {
     const res = getMsgs(uid, hostUid);
     setMessages(res.data)
     */
-    setMessages([
-      { from: "test2", to: "test", msg: "Okay", createdDate: new Date() },
-      { from: "test", to: "test2", msg: "Great", createdDate: new Date() },
-    ]);
+    setMessages([]);
   }, [uid, targetUid]);
 
   const checkMessage = (msg) => {
@@ -88,7 +86,16 @@ const MsgModal = ({ uid, targetUid, closeModal }) => {
       <TouchableOpacity style={styles.closeButton} onClick={() => closeModal()}>
         {icons.close}
       </TouchableOpacity>
-      <Frame style={styles.msgSection}>{msgLines}</Frame>
+      <Frame style={styles.msgSection}>
+        <Text style={styles.title}>
+          {userStore[targetUid].firstName + " " + userStore[targetUid].lastName}
+        </Text>
+        {msgLines.length === 0 ? (
+          <Text style={{ margin: "auto" }}>No Messages Sent</Text>
+        ) : (
+          msgLines
+        )}
+      </Frame>
       <Frame style={styles.commentSection}>
         <TextBox
           style={{

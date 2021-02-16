@@ -2,7 +2,7 @@ import ProfileFrame from "../ProfileFrame";
 import MsgModal from "../MsgModal";
 import { useState } from "react";
 
-const MsgSection = ({ uid, targetUid }) => {
+const MsgSection = ({ uid, targetUid, userStore }) => {
   const [msgModalOn, setMsgModalOn] = useState(true);
 
   return (
@@ -11,6 +11,7 @@ const MsgSection = ({ uid, targetUid }) => {
         <MsgModal
           uid={uid}
           targetUid={targetUid}
+          userStore={userStore}
           closeModal={() => {
             setMsgModalOn(false);
           }}
