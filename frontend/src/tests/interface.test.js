@@ -42,10 +42,10 @@ it('integrates AuthPage', () => {
   expect(screen.getByText('©2021 BruinTutors.com')).toBeInTheDocument();
   
   // Sign In
-  // expect(screen.getAllByText('Sign In'))[0].toBeInTheDocument();
+  expect(screen.getAllByText('Sign In')[0]).toBeInTheDocument();
   expect(screen.getByPlaceholderText('Email')).toBeInTheDocument();
   expect(screen.getByPlaceholderText('Password')).toBeInTheDocument();
-  // expect(screen.getAllByText('Sign In'))[1].toBeInTheDocument();
+  expect(screen.getAllByText('Sign In')[1]).toBeInTheDocument();
   expect(screen.getByText('Forget Password')).toBeInTheDocument();
   expect(screen.getByText('Create Account')).toBeInTheDocument();
   
