@@ -3,8 +3,6 @@ import { getClassList } from "../../api";
 import Text from "../../components/Text";
 import { useState } from "react";
 
-// The array will store the defined subject area
-// Once user click a subject, fetch API to get the entire subclass list to display 
 const subjectArea = [
   { label: "Art", value: "Art" },
   { label: "American Indian Studies", value: "American Indian Studies" },
@@ -54,11 +52,18 @@ const AppDropDown = () => {
   // Test with some dummy values if selected subject = Art (dummy values)  
   // const entries = ["Art_1A", "Art_1B", "Art_11A", "Art_11B"];
 
-  const [classList, setClassList] = useState([]);
+  // // Testing purpose 
+  // const handleGetClassList2 = () => {
+  //   let subclassFromApi = entries.map((item) => {
+  //     return {label: item, value: item};
+  //   });
 
-  // How to process above to become the bottom part?
-  // Dummy values for testing display 
-  // const classes = [{label: "Art_1A", value: "Art_1A"}];
+  //   setClassList(subclassFromApi);
+  // }
+  // --------------------------------
+
+  const [classList, setClassList] = useState([]);
+  const [selectedClass, setSelectedClass] = useState("");
 
   const handleGetClassList = async (selectedSubject) => {
     const res = await getClassList(selectedSubject);
@@ -66,8 +71,9 @@ const AppDropDown = () => {
       console.log(res.errMsg)
     } else {
       const data = res.data;
-      const subClasses = data.classList;
-
+      // assume the field called classes 
+      const subClasses = data.classes;
+      
       let subclassFromApi = subClasses.map((item) => {
         return {label: item, value: item};
       });
@@ -76,14 +82,17 @@ const AppDropDown = () => {
     }
   }
 
-  // TODO: double check if the edit profile is able to grab the input from the second drop down list!!
+  const handleSelectedClass = (clickClass) => {
+    setSelectedClass(clickClass);
+    console.log("Adding a class: " + clickClass);
+  }
+
   return (
     <div style={{ width: "200px" }}>
-      {/* <Select options={subjectArea} onChange={(opt) => console.log(opt.label, opt.value)} /> */}
       <Select options={subjectArea} onChange={(opt) => handleGetClassList(opt.label)} />
 
-      <Text>Class List</Text>
-      <Select options={classList}></Select>
+      <Text>Sub-Class List</Text>
+      <Select options={classList} onChange={(opt) => handleSelectedClass(opt.label)}></Select>
     </div>
   );
 }
