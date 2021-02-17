@@ -28,7 +28,14 @@ import TextBox from '../components/TextBox';
 import TextInput from '../components/TextInput';
 import ToggleSwitch from '../components/ToggleSwitch';
 import TouchableOpacity from '../components/TouchableOpacity';
-
+import AuthPage from '../pages/AuthPage';
+import CoverPage from '../pages/CoverPage';
+import EditProfilePage from '../pages/EditProfilePage';
+import ProfilePage from '../pages/ProfilePage';
+import ResetPasswordPage from '../pages/ResetPasswordPage';
+import ResetPwdFail from '../pages/ResetPwdFail';
+import ResetPwdSuccess from '../pages/ResetPwdSuccess';
+import SearchPage from '../pages/SearchPage';
 
 let container = null;
 
@@ -42,6 +49,8 @@ afterEach(() => {
   container.remove();
   container = null;
 });
+
+console.log("Running unit tests\n");
 
 it('renders AppButton', () => {
   ReactDOM.render(<AppButton />, container);
@@ -165,5 +174,47 @@ it('renders ToggleSwitch', () => {
 
 it('renders TouchableOpacity', () => {
   ReactDOM.render(<TouchableOpacity />, container);
+  expect(container.querySelector('div')).toBeTruthy();
+});
+
+it('renders AuthPage', () => {
+  ReactDOM.render(<AuthPage />, container);
+  expect(container.querySelector('div')).toBeTruthy();
+});
+
+it('renders CoverPage', () => {
+  ReactDOM.render(<CoverPage />, container);
+  expect(container.querySelector('div')).toBeTruthy();
+});
+
+it('renders EditProfilePage', () => {
+  ReactDOM.render(<EditProfilePage />, container);
+  expect(container.querySelector('div')).toBeTruthy();
+});
+
+let m = {"params": {"id": 0}};
+
+it('renders ProfilePage', () => {
+  ReactDOM.render(<ProfilePage match={m} uid={1}/>, container);
+  expect(container.querySelector('div')).toBeTruthy();
+});
+
+it('renders ResetPasswordPage', () => {
+  ReactDOM.render(<ResetPasswordPage />, container);
+  expect(container.querySelector('div')).toBeTruthy();
+});
+
+it('renders ResetPwdFail', () => {
+  ReactDOM.render(<ResetPwdFail />, container);
+  expect(container.querySelector('div')).toBeTruthy();
+});
+
+it('renders ResetPwdSuccess', () => {
+  ReactDOM.render(<ResetPwdSuccess />, container);
+  expect(container.querySelector('div')).toBeTruthy();
+});
+
+it('renders SearchPage', () => {
+  ReactDOM.render(<SearchPage />, container);
   expect(container.querySelector('div')).toBeTruthy();
 });
