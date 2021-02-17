@@ -1,6 +1,5 @@
 import React from 'react';
 import '@testing-library/jest-dom/extend-expect'
-import { render, screen } from '@testing-library/react';
 import ReactDOM from 'react-dom';
 import { unmountComponentAtNode } from 'react-dom';
 import AppButton from '../components/AppButton';
@@ -192,10 +191,8 @@ it('renders EditProfilePage', () => {
   expect(container.querySelector('div')).toBeTruthy();
 });
 
-let m = {"params": {"id": 0}};
-
 it('renders ProfilePage', () => {
-  ReactDOM.render(<ProfilePage match={m} uid={1}/>, container);
+  ReactDOM.render(<ProfilePage match={{"params": {"id": 0}}} uid={1}/>, container);
   expect(container.querySelector('div')).toBeTruthy();
 });
 
