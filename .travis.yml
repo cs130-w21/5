@@ -9,3 +9,6 @@ matrix:
       - echo "---- Start Running Backend Unit Tests ----"
       - cd ./backend/test
       - PYTHONPATH=.. pytest -v
+      - echo "---- Start Running Frontend Tests ----"
+      - cd ../../frontend/src/tests
+      - run-tests
