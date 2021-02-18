@@ -28,7 +28,7 @@ afterEach(() => {
   container = null;
 });
 
-console.log('Running integration tests\n');
+console.log('Running interface tests\n');
 
 it('interfaces AuthPage', () => {
   act(() => {
