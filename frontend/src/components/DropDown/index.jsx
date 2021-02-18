@@ -11,10 +11,14 @@ const classesUCLA = [
   { label: "Chem 100", value: "Chem 100" },
 ];
 
-function AppDropDown({ onSelect }) {
+function AppDropDown({ onSelect, styles }) {
   return (
-    <div style={{ width: "200px" }}>
-      <Select options={classesUCLA} onChange={(opt) => onSelect(opt.value)} />
+    <div style={{ width: 200, ...styles }}>
+      <Select
+        options={classesUCLA}
+        styles={styles}
+        onChange={(opt) => onSelect(opt.value)}
+      />
     </div>
   );
 }
