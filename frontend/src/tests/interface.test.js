@@ -30,7 +30,7 @@ afterEach(() => {
 
 console.log('Running integration tests\n');
 
-it('integrates AuthPage', () => {
+it('interfaces AuthPage', () => {
   act(() => {
     ReactDOM.render(<AuthPage />, container);
   });
@@ -77,7 +77,7 @@ it('integrates AuthPage', () => {
   expect(screen.getByText('Sign In')).toBeInTheDocument();
 });
 
-it('integrates CoverPage', () => {
+it('interfaces CoverPage', () => {
   ReactDOM.render(<CoverPage />, container);
   expect(screen.getByText('BruinTutors')).toBeInTheDocument();
   expect(screen.getByText('Sign In')).toBeInTheDocument();
@@ -86,7 +86,7 @@ it('integrates CoverPage', () => {
   expect(screen.getByText('©2021 BruinTutors.com')).toBeInTheDocument();
 });
 
-it('integrates EditProfilePage', () => {
+it('interfaces EditProfilePage', () => {
   act(() => {
     ReactDOM.render(<EditProfilePage />, container);
   });
@@ -109,7 +109,7 @@ it('integrates EditProfilePage', () => {
   expect(screen.getByText('Save Changes')).toBeInTheDocument();
 });
 
-it('integrates ProfilePage', () => {
+it('interfaces ProfilePage', () => {
   act(() => {
     ReactDOM.render(<ProfilePage match={{'params': {'id': 0}}} uid={1}/>, container);
   });
@@ -124,7 +124,7 @@ it('integrates ProfilePage', () => {
   expect(screen.getByText('Send Message')).toBeInTheDocument();
 });
 
-it('integrates ResetPasswordPage', () => {
+it('interfaces ResetPasswordPage', () => {
   act(() => {
     ReactDOM.render(<ResetPasswordPage />, container);
   });
@@ -142,7 +142,7 @@ it('integrates ResetPasswordPage', () => {
   expect(screen.getByText('Change')).toBeInTheDocument();
 });
 
-it('integrates ResetPwdFail', () => {
+it('interfaces ResetPwdFail', () => {
   act(() => {
     ReactDOM.render(<ResetPwdFail />, container);
   });
@@ -158,7 +158,7 @@ it('integrates ResetPwdFail', () => {
   expect(screen.getByText('Reset password fail! Please try again.')).toBeInTheDocument();
 });
 
-it('integrates ResetPwdSuccess', () => {
+it('interfaces ResetPwdSuccess', () => {
   act(() => {
     ReactDOM.render(<ResetPwdSuccess />, container);
   });
@@ -174,7 +174,7 @@ it('integrates ResetPwdSuccess', () => {
   expect(screen.getByText('Your password is reset successfully!')).toBeInTheDocument();
 });
 
-it('integrates SearchPage', () => {
+it('interfaces SearchPage', () => {
   act(() => {
     ReactDOM.render(<SearchPage />, container);
   });
