@@ -95,7 +95,9 @@ const SearchBar = () => {
                   courseName={entry}
                   style={{
                     fontSize: 12,
-                    backgroundColor: themeColors.white,
+                    margin: 5,
+                    padding: 5,
+                    backgroundColor: themeColors.darkgray,
                   }}
                   onClick={() => deleteClass(entry)}
                 />
@@ -106,9 +108,25 @@ const SearchBar = () => {
       />
       <FilterCard
         name="Availability"
-        height={50}
+        height={100}
         cancelFunc={() => {}}
-        content={<Calendar />}
+        content={
+          <Calendar
+            data={[
+              [0, 0, 0, 0, 0, 0, 0],
+              [0, 0, 0, 0, 0, 0, 0],
+              [0, 0, 0, 0, 0, 0, 0],
+              [0, 0, 0, 0, 0, 0, 0],
+              [0, 0, 0, 0, 0, 0, 0],
+              [0, 0, 0, 0, 0, 0, 0],
+              [0, 0, 0, 0, 0, 0, 0],
+            ]}
+            width={200}
+            height={100}
+            editable={true}
+            style={{ margin: 10, fontSize: 8, color: themeColors.white }}
+          />
+        }
       />
       <FilterCard
         name="Rating"
