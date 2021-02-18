@@ -40,6 +40,8 @@ const ProfilePage = ({ match, uid, userStore, contacts }) => {
         "PHYSICS 143",
         "CS 111",
       ],
+      messages: [],
+      notifications: [],
     });
     setTargetUid("test");
   };
