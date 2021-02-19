@@ -3,7 +3,7 @@ import os
 import pytest
 import fakeredis
 from flask import Flask
-import auth, profile
+import auth, profile, message
 
 @pytest.fixture
 def app():
@@ -23,6 +23,7 @@ def app():
 
     app.register_blueprint(auth.bp)
     app.register_blueprint(profile.bp)
+    app.register_blueprint(message.bp)
 
     return app
 
