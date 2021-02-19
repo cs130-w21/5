@@ -5,6 +5,7 @@ from flask import (
 from werkzeug.security import check_password_hash, generate_password_hash
 
 import json
+import datetime
 
 bp = Blueprint('message', __name__, url_prefix='/api/message')
 
@@ -39,32 +40,43 @@ def add():
             redis_client.hmset("notif{}".format(next_nid), {'from': fromUid, 'to': toUid, 'msg': msg, 'createdDate': createdDate, 'type': "MESSAGE"})
             redis_client.rpush("notifications{}".format(toUid), next_nid)
 
-            return json.dumps({'error': False}), 200, {'Content-Type':'application/json'}
+            resp_body_json = json.dumps({'error': False})
+            return flask.Response(status=200, content_type='application/json', response=resp_body_json)
 
-        return json.dumps({'error': True, 'errMsg': error}), 200, {'Content-Type':'application/json'}
-    return '', 200
+        resp_body_json = json.dumps({'error': True, 'errMsg': error})
+        return flask.Response(status=200, content_type='application/json', response=resp_body_json)
+    return flask.Response(status=200, response='')
+
+def sortByDate(msg):
+    createdTime = datetime.datetime.strptime(msg['createdDate'], '%Y-%m-%dT%H:%M:%S.%fZ')
+    return createdTime.timestamp()
+
 
 @bp.route('/get', methods=('GET', 'POST'))
 def get():
     redis_client = current_app.config['RDSCXN']
     if request.method == 'POST':
         data = request.get_json()
-        hostUid = data['host']
-        fromUid = data['from'] if 'from' in data.keys() else None
-        toUid = data['to'] if 'to' in data.keys() else None
+        uid1 = data['uid1'] if data else None
+        uid2 = data['uid2'] if data else None
         error = None
 
-        if not hostUid:
-            error = 'Host UID is required'
+        if not uid1:
+            error = 'uid1 is required'
+        elif not uid2:
+            error = 'uid2 is required'
 
         if error is None:
-            messageIds = redis_client.lrange("messages{}".format(hostUid), 0, -1)
-            messages = []
-            for mid in messageIds:
-                message = redis_client.hgetall("msg{}".format(mid))
-                if (not fromUid or fromUid == message['from']) and (not toUid or toUid == message['to']):
-                    messages.append(message)
-                return json.dumps({'error': False, 'messages': messages}), 200, {'Content-Type': 'application/json'}
+            retMessages = []
+            next_mid = int(redis_client.get("next_mid"))
+            for mid in range(next_mid):
+                msg = redis_client.hgetall("msg{}".format(mid))
+                if (msg['from'] == uid1 and msg['to'] == uid2) or (msg['from'] == uid2 and msg['to'] == uid1):
+                    retMessages.append(msg)
+            retMessages.sort(key=sortByDate)
+            resp_body_json = json.dumps({'error': False, 'messages': retMessages})
+            return flask.Response(status=200, content_type='application/json', response=resp_body_json)
 
-        return json.dumps({'error': True, 'errMsg': error}), 200, {'Content-Type':'application/json'}
-    return '', 200
+        resp_body_json = json.dumps({'error': True, 'errMsg': error})
+        return flask.Response(status=200, content_type='application/json', response=resp_body_json)
+    return flask.Response(status=200, response='')
