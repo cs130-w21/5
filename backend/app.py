@@ -8,7 +8,8 @@ def create_app(test_config=None):
     # create and configure the app
     app = Flask(__name__, instance_relative_config=True)
     rdscli.r.set('next_uid', 1)
-    rdscli.r.set('next_pid', 1)
+    rdscli.r.set('next_mid', 1)
+    rdscli.r.set('next_nid', 1)
     rdscli.r.bgsave()
     app.config.from_mapping(
         SECRET_KEY = 'dev',
