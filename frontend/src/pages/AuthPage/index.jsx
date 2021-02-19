@@ -5,7 +5,7 @@ import AppButton from "../../components/AppButton";
 import Text from "../../components/Text";
 import ToggleSwitch from "../../components/ToggleSwitch";
 import { themeColors, AuthStates } from "../../config";
-import { signUpUser, forgotPwd } from "../../api";
+import { signUpUser, forgotPwd, signInRequest } from "../../api";
 import { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 
@@ -20,25 +20,33 @@ const AuthPage = ({ uid, setUid }) => {
   const [isTutor, setIsTutor] = useState(false);
 
   const handleSignUp = async () => {
+    history.push("/edit_profile/" + uid);
+
+    /*
     const res = await signUpUser(firstName, lastName, email, passwd, isTutor);
     if (res.error) {
-      // TO DO: notify the error
+      console.log(res.errMsg);
     } else {
       const data = res.data;
       setUid(data.uid);
+      history.push("/edit_profile/" + data.uid);
     }
-    history.push("/edit_profile/" + uid);
+    */
   };
 
   const handleSignIn = async () => {
+    history.push("/profile/" + uid);
+
+    /*
     const res = await signInRequest(email, passwd);
     if (res.error) {
       console.log(res.errMsg);
     } else {
       const data = res.data;
       setUid(data.uid);
+      history.push("/profile/" + data.uid);
     }
-    history.push("/profile/" + uid);
+    */
   };
 
   const handleResetPassword = async () => {

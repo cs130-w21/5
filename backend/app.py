@@ -1,5 +1,5 @@
 import os
-import auth, profile, message
+import auth, profile, class_list
 from flask import Flask
 import rdscli
 
@@ -31,7 +31,7 @@ def create_app(test_config=None):
 
     app.register_blueprint(auth.bp)
     app.register_blueprint(profile.bp)
-    app.register_blueprint(message.bp)
+    app.register_blueprint(class_list.bp)
 
     return app
 
