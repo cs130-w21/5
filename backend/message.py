@@ -13,11 +13,10 @@ def add():
     redis_client = current_app.config['RDSCXN']
     if request.method == 'POST':
         data = request.get_json()
-        fromUid = data['from']
-        toUid = data['to']
-        hostUid = data['host']
-        msg = data['msg']
-        createdDate = data['createdDate']
+        fromUid = data['from'] if data else None
+        toUid = data['to'] if data else None
+        msg = data['msg'] if data else None
+        createdDate = data['createdDate'] if data else None
         error = None
 
         if not fromUid:
@@ -34,8 +33,7 @@ def add():
         if error is None:
             next_mid = redis_client.get('next_mid')
             redis_client.incr('next_mid')
-            redis_client.hmset("msg{}".format(next_mid), {'from': fromUid, 'to': toUid, 'host': hostUid, 'msg': msg, 'createdDate': createdDate})
-            redis_client.rpush("messages{}".format(hostUid), next_mid)
+            redis_client.hmset("msg{}".format(next_mid), {'from': fromUid, 'to': toUid, 'msg': msg, 'createdDate': createdDate})
             next_nid = redis_client.get('next_nid')
             redis_client.incr('next_nid')
             redis_client.hmset("notif{}".format(next_nid), {'from': fromUid, 'to': toUid, 'msg': msg, 'createdDate': createdDate, 'type': "MESSAGE"})
