@@ -1,5 +1,5 @@
 import os
-import auth, profile, class_list
+import auth, profile, class_list, message
 from flask import Flask
 import rdscli
 
