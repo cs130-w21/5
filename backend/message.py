@@ -2,6 +2,7 @@ import functools
 from flask import (
     Blueprint, flash, g, redirect, render_template, request, session, url_for, current_app
 )
+import flask
 from werkzeug.security import check_password_hash, generate_password_hash
 
 import json
@@ -24,8 +25,6 @@ def add():
             error = 'From UID is required.'
         elif not toUid:
             error = 'To UID is required.'
-        elif not hostUid:
-            error = 'Host UID is required'
         elif msg is None:
             error = 'Message is required'
         elif not createdDate:
@@ -69,7 +68,7 @@ def get():
         if error is None:
             retMessages = []
             next_mid = int(redis_client.get("next_mid"))
-            for mid in range(next_mid):
+            for mid in range(1,next_mid):
                 msg = redis_client.hgetall("msg{}".format(mid))
                 if (msg['from'] == uid1 and msg['to'] == uid2) or (msg['from'] == uid2 and msg['to'] == uid1):
                     retMessages.append(msg)
