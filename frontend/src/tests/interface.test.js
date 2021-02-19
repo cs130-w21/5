@@ -78,7 +78,9 @@ it('interfaces AuthPage', () => {
 });
 
 it('interfaces CoverPage', () => {
-  ReactDOM.render(<CoverPage />, container);
+  act(() => {
+    ReactDOM.render(<CoverPage />, container);
+  });
   expect(screen.getByText('BruinTutors')).toBeInTheDocument();
   expect(screen.getByText('Sign In')).toBeInTheDocument();
   expect(screen.getByText('Privacy Policy')).toBeInTheDocument();
