@@ -35,16 +35,25 @@ const FilterCard = ({ name, content, height, cancelFunc }) => {
 };
 
 const marks = {
-  0: "1★",
-  25: "2★",
-  50: "3★",
-  75: "4★",
-  100: "5★",
+  0: { style: styles.rating, label: "1★" },
+  25: { style: styles.rating, label: "2★" },
+  50: { style: styles.rating, label: "3★" },
+  75: { style: styles.rating, label: "4★" },
+  100: { style: styles.rating, label: "5★" },
 };
 
 const SearchBar = () => {
   const [classes, setClasses] = useState([]);
   const [rating, setRating] = useState([0, 100]);
+  const [schedule, setSchedule] = useState([
+    [0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0],
+  ]);
 
   const addClass = (entry) => {
     if (classes.indexOf(entry) === -1) setClasses([...classes, entry]);
@@ -109,18 +118,20 @@ const SearchBar = () => {
       <FilterCard
         name="Availability"
         height={100}
-        cancelFunc={() => {}}
+        cancelFunc={() => {
+          setSchedule([
+            [0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0],
+          ]);
+        }}
         content={
           <Calendar
-            data={[
-              [0, 0, 0, 0, 0, 0, 0],
-              [0, 0, 0, 0, 0, 0, 0],
-              [0, 0, 0, 0, 0, 0, 0],
-              [0, 0, 0, 0, 0, 0, 0],
-              [0, 0, 0, 0, 0, 0, 0],
-              [0, 0, 0, 0, 0, 0, 0],
-              [0, 0, 0, 0, 0, 0, 0],
-            ]}
+            data={schedule}
             width={200}
             height={100}
             editable={true}
@@ -133,7 +144,12 @@ const SearchBar = () => {
         height={50}
         cancelFunc={() => setRating([0, 100])}
         content={
-          <Frame style={{ flexDirection: "row", alignSelf: "stretch" }}>
+          <Frame
+            style={{
+              flexDirection: "row",
+              alignSelf: "stretch",
+            }}
+          >
             <Slider
               tipFormatter={null}
               style={{ width: 150, overflow: "visible" }}

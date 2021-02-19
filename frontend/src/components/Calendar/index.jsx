@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { themeColors } from "../../config";
 import Frame from "../Frame";
 import TouchableOpacity from "../TouchableOpacity";
@@ -37,6 +37,9 @@ const DayMap = {
 
 const Calendar = ({ data = [[]], width, height, style, editable = false }) => {
   const [bytes, setBytes] = useState(data);
+  useEffect(() => {
+    setBytes(data);
+  }, [data]);
   const calendar = [];
   const changeByte = (i, j, d) => {
     const newBytes = JSON.parse(JSON.stringify(bytes));
@@ -65,7 +68,7 @@ const Calendar = ({ data = [[]], width, height, style, editable = false }) => {
           }}
           level={byte}
         >
-          {String(9 + 2 * j) + ":00"}
+          {String(9 + 2 * j) + "-" + String(9 + 2 * j + 2)}
         </Block>
       );
     }
