@@ -11,4 +11,4 @@ matrix:
       - PYTHONPATH=.. pytest -v
       - echo "---- Start Running Frontend Tests ----"
       - cd ../../frontend/src/tests
-      - npm run test-all
+      - ./run-tests
