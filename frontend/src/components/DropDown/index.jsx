@@ -47,23 +47,22 @@ const subjectArea = [
   { label: "Yiddish", value: "Yiddish" },
 ];
 
-const AppDropDown = () => {
+// Check this
+const AppDropDown = (selectedClass, setSelectedClass) => {
 
   // Test with some dummy values if selected subject = Art (dummy values)  
   // const entries = ["Art_1A", "Art_1B", "Art_11A", "Art_11B"];
-
   // // Testing purpose 
   // const handleGetClassList2 = () => {
   //   let subclassFromApi = entries.map((item) => {
   //     return {label: item, value: item};
   //   });
-
   //   setClassList(subclassFromApi);
   // }
-  // --------------------------------
 
   const [classList, setClassList] = useState([]);
-  const [selectedClass, setSelectedClass] = useState("");
+  // Moved to edit profile page 
+  // const [selectedClass, setSelectedClass] = useState("");
 
   const handleGetClassList = async (selectedSubject) => {
     const res = await getClassList(selectedSubject);
