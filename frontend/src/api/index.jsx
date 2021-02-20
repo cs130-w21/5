@@ -175,27 +175,6 @@ export const getProfile = async (uid) => {
   }
 };
 
-// Selected Class Category 
-export const getClassList = async (subjectArea) => {
-  try {
-
-    const res = await POST("/classList/get", {
-      subjectArea,
-    });
-    if (res.status != 200) {
-      return createError(res, "Status Error: " + res.status);
-    }
-    const data = await res.json();
-    if (data.error) {
-      return createError(null, data.errMsg);
-    } else {
-      return createSuccess(data.payload);
-    }
-  } catch(e) {
-    return createError(e, "server disconnected.")
-  }
-}
-
 export const sendMsg = async (from, to, msg) => {
   try {
     const newMsg = {
@@ -329,4 +308,24 @@ export const studentCheckResponse = async (studentUID, tutorUID) => {
   }
 }
 
+// Selected Class Category 
+export const getClassList = async (subjectArea) => {
+  try {
+
+    const res = await POST("/classList/get", {
+      subjectArea,
+    });
+    if (res.status != 200) {
+      return createError(res, "Status Error: " + res.status);
+    }
+    const data = await res.json();
+    if (data.error) {
+      return createError(null, data.errMsg);
+    } else {
+      return createSuccess(data.payload);
+    }
+  } catch(e) {
+    return createError(e, "server disconnected.")
+  }
+}
 
