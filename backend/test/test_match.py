@@ -37,7 +37,7 @@ def test_initiate(client, app):
     initiate_response = client.post(initate_url, headers={'Content-Type': 'application/json'}, data=initiate_data)
     assert initiate_response.status_code == 200
     initiate_response_json = initiate_response.json
-    assert not initiate_response_json['error'], print(initiate_response_json['errMsg'])
+    assert not initiate_response_json['error']
 
     initiate_response = client.post(initate_url, headers={'Content-Type': 'application/json'}, data=initiate_data)
     assert initiate_response.status_code == 200
@@ -66,7 +66,7 @@ def test_tutorrespond(client, app):
     tutor_response = test_tr(redis_client, tutor_data)
     assert tutor_response.status_code == 200
     tutor_response_json = tutor_response.json
-    assert not tutor_response_json['error'], print(tutor_response_json['errMsg'])
+    assert not tutor_response_json['error']
     assert redis_client.lrange('match_req1', 0, -1) == []
 
     redis_client.rpush('match_req1', 2)
@@ -74,7 +74,7 @@ def test_tutorrespond(client, app):
     tutor_response = test_tr(redis_client, tutor_data)
     assert tutor_response.status_code == 200
     tutor_response_json = tutor_response.json
-    assert not tutor_response_json['error'], print(tutor_response_json['errMsg'])
+    assert not tutor_response_json['error']
     assert redis_client.lrange('match_req1', 0, -1) == []
     assert redis_client.lrange('students1', 0, -1) == ['2']
 
@@ -98,7 +98,7 @@ def test_tutor_check_request(client, app):
     tutor_response = client.get(tutorrespond_url, headers={'Content-Type': 'application/json'}, data=tutor_data_json)
     assert tutor_response.status_code == 200
     tutor_response_json = tutor_response.json
-    assert not tutor_response_json['error'], print(tutor_response_json['errMsg'])
+    assert not tutor_response_json['error']
     assert tutor_response_json['payload'] == ['2']
 
 def test_student_check_response(client, app):
