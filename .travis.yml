@@ -2,6 +2,7 @@ language: python
 install:
   - pip install -r ./backend/requirements.txt
 
+
 script:
   - echo "---- Start Running Backend Unit Tests ----"
   - cd ./backend/test

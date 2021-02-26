@@ -3,7 +3,7 @@ import os
 import pytest
 import fakeredis
 from flask import Flask
-import auth, profile, class_list, recovery
+import auth, profile, class_list, recovery, match
 
 @pytest.fixture
 def app():
