@@ -60,12 +60,9 @@ export default {
     alignSelf: "stretch",
     zIndex: 11,
   },
-<<<<<<< HEAD
   rating: {
     color: themeColors.yellow,
     fontSize: 18,
     textShadow: "1px 1px 2px #DAA520",
   },
-=======
->>>>>>> ace46a877f6a965715231f661b64f1ea5448f8fe
 };
