@@ -24,6 +24,7 @@ def app():
     app.register_blueprint(profile.bp)
     app.register_blueprint(class_list.bp)
     app.register_blueprint(recovery.bp)
+    app.register_blueprint(match.bp)
 
     return app
 
