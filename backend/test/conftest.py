@@ -24,6 +24,7 @@ def app():
     app.register_blueprint(auth.bp)
     app.register_blueprint(profile.bp)
     app.register_blueprint(class_list.bp)
+    app.register_blueprint(message.bp)
 
     return app
 
