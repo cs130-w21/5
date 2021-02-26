@@ -6,7 +6,7 @@ def test_add(client, app):
         "from": "3" ,
         "to": "4",
         "msg": "A Message",
-        "createdDate": "2021-02-19T14:41:55.000Z"
+        "createdDate": 1
     }
     data = json.dumps(json_data)
     response = client.post(url, data=data, headers={'Content-Type': 'application/json'})
@@ -24,7 +24,7 @@ def test_get(client, app):
         "from": "1" ,
         "to": "2",
         "msg": "Message1 from 1 to 2",
-        "createdDate": "2021-02-19T14:41:55.000Z"
+        "createdDate": 1
     }
     data = json.dumps(json_data)
     client.post(url, data=data, headers={'Content-Type': 'application/json'})
@@ -32,7 +32,7 @@ def test_get(client, app):
         "from": "2" ,
         "to": "1",
         "msg": "Message2 from 2 to 1",
-        "createdDate": "2021-02-19T14:42:55.000Z"
+        "createdDate": 2
     }
     data = json.dumps(json_data)
     client.post(url, data=data, headers={'Content-Type': 'application/json'})
@@ -40,7 +40,7 @@ def test_get(client, app):
         "from": "1" ,
         "to": "3",
         "msg": "Message3 from 1 to 3",
-        "createdDate": "2021-02-19T14:43:55.000Z"
+        "createdDate": 3
     }
     data = json.dumps(json_data)
     client.post(url, data=data, headers={'Content-Type': 'application/json'})
@@ -48,7 +48,7 @@ def test_get(client, app):
         "from": "1" ,
         "to": "2",
         "msg": "Message4 from 1 to 2",
-        "createdDate": "2021-02-19T14:44:55.000Z"
+        "createdDate": 4
     }
     data = json.dumps(json_data)
     client.post(url, data=data, headers={'Content-Type': 'application/json'})
@@ -56,7 +56,7 @@ def test_get(client, app):
         "from": "2" ,
         "to": "1",
         "msg": "Message0 from 2 to 1",
-        "createdDate": "2021-02-19T14:40:55.000Z"
+        "createdDate": 0
     }
     data = json.dumps(json_data)
     client.post(url, data=data, headers={'Content-Type': 'application/json'})

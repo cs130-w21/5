@@ -27,7 +27,7 @@ def add():
             error = 'To UID is required.'
         elif msg is None:
             error = 'Message is required'
-        elif not createdDate:
+        elif createdDate is None:
             error = 'Created Date is required.'
 
         if error is None:
@@ -47,9 +47,7 @@ def add():
     return flask.Response(status=200, response='')
 
 def sortByDate(msg):
-    createdTime = datetime.datetime.strptime(msg['createdDate'], '%Y-%m-%dT%H:%M:%S.%fZ')
-    return createdTime.timestamp()
-
+    return msg['createdDate']
 
 @bp.route('/get', methods=('GET', 'POST'))
 def get():
