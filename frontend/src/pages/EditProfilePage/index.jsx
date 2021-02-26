@@ -3,7 +3,6 @@ import PageFrame from "../../components/PageFrame";
 import AppTextInput from "../../components/AppTextInput";
 import AppButton from "../../components/AppButton";
 import Text from "../../components/Text";
-// Rememner to revert this back and call this down
 import AppDropDown from "../../components/DropDown";
 import Course from "../../components/Course";
 import { editProfile } from "../../api";
@@ -19,6 +18,10 @@ const EditProfilePage = ({ uid }) => {
   const [editYear, setEditYear] = useState("");
   const [classes, setClasses] = useState([]);
   const history = useHistory();
+
+  // ** Move to the search page as well 
+  // Move the selectedClass, setSelectedClass from drop down to edit profile page 
+  const [selectedClass, setSelectedClass] = useState("");
 
   const addClass = (entry) => {
     if (classes.indexOf(entry) === -1) setClasses([...classes, entry]);
@@ -89,7 +92,8 @@ const EditProfilePage = ({ uid }) => {
           onInput={(e) => setEditYear(e.target.value)}
         />
         <Text>Classes</Text>
-        <AppDropDown onSelect={addClass}></AppDropDown>
+        <AppDropDown onSelect={addClass} selectedClass={selectedClass} setSelectedClass={setSelectedClass}></AppDropDown>
+        {/* <AppDropDown onSelect={addClass}></AppDropDown> */}
         <Frame style={{ flexDirection: "row" }}>
           {classes.map((entry, index) => (
             <Course
