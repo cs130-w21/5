@@ -3,7 +3,7 @@ import os
 import pytest
 import fakeredis
 from flask import Flask
-import auth, profile, class_list, recovery, match
+import auth, profile, class_list, recovery
 
 @pytest.fixture
 def app():
@@ -24,7 +24,6 @@ def app():
     app.register_blueprint(profile.bp)
     app.register_blueprint(class_list.bp)
     app.register_blueprint(recovery.bp)
-    app.register_blueprint(match.bp)
 
     return app
 

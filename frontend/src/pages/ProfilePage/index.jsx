@@ -6,22 +6,11 @@ import CourseSection from "../../components/CourseSection";
 import CalendarSection from "../../components/CalendarSection";
 import ContactSection from "../../components/ContactSection";
 import { useEffect, useState } from "react";
-import { getProfile } from "../../api";
 
-const ProfilePage = ({ match, uid, userStore, contacts }) => {
+const ProfilePage = ({ match, uid }) => {
   const [profileInfo, setProfileInfo] = useState();
-  const [targetUid, setTargetUid] = useState();
-  const fetchInfo = async () => {
-    
-    const res = await getProfile(match.params.id)
-    if (res.error) {
-      console.log(res.errMsg);
-    } else {
-      const data = res.data;
-      setProfileInfo(data)
-      setTargetUid(data.uid)
-    }
-    
+  useEffect(() => {
+    // TO DO: fetch user info from server
     setProfileInfo({
       uid: "test",
       firstName: "Joe",
@@ -43,19 +32,12 @@ const ProfilePage = ({ match, uid, userStore, contacts }) => {
       messages: [],
       notifications: [],
     });
-    setTargetUid("test");
-  };
-  useEffect(() => {
-    fetchInfo();
   }, []);
-
-  const setProfileUrl = (url) => {
+  const setProfileUrl = (url) =>
     setProfileInfo({
       ...profileInfo,
       profileUrl: url,
     });
-  };
-
   const isOwner = match.params.id === uid;
   if (!profileInfo) {
     return <div></div>;
@@ -88,24 +70,14 @@ const ProfilePage = ({ match, uid, userStore, contacts }) => {
                   major={profileInfo.major}
                 />
               )}
-              <MsgSection
-                uid={uid}
-                targetUid={targetUid}
-                userStore={userStore}
-              />
+              <MsgSection uid={uid} hostUid={profileInfo.uid} />
             </Frame>
             <Frame>
               {profileInfo && <CourseSection classes={profileInfo.classes} />}
               <CalendarSection />
             </Frame>
             <Frame>
-              {profileInfo && (
-                <ContactSection
-                  userStore={userStore}
-                  contacts={contacts}
-                  setTargetUid={setTargetUid}
-                />
-              )}
+              <ContactSection />
             </Frame>
           </Frame>
         </Frame>
