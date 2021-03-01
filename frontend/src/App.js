@@ -7,6 +7,7 @@ import ResetPasswordPage from "./pages/ResetPasswordPage";
 import CoverPage from "./pages/CoverPage";
 import "./index.css";
 import { useState, useEffect } from "react";
+import { getUid, signInRequest } from "./api";
 
 function App() {
   const [uid, setUid] = useState("");
@@ -123,12 +124,20 @@ function App() {
     "test4",
     "test5",
   ]);
+
   useEffect(() => {
-    // TO DO: fetch uid from the server
-    setUid("test");
+    getAuthState();
   }, []);
 
-  console.log(uid);
+  const getAuthState = async () => {
+    const res = await getUid();
+    if (res.error) {
+      window.alert(res.errMsg);
+    } else {
+      const data = res.data;
+      setUid(data.uid);
+    }
+  };
 
   return (
     <Router>

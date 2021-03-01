@@ -7,7 +7,7 @@ import CalendarSection from "../../components/CalendarSection";
 import ContactSection from "../../components/ContactSection";
 import { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
-import { getProfile } from "../../api";
+import { getProfile, uploadProfilePicture } from "../../api";
 
 const ProfilePage = ({ match, uid, userStore, contacts }) => {
   const [profileInfo, setProfileInfo] = useState();
@@ -15,44 +15,22 @@ const ProfilePage = ({ match, uid, userStore, contacts }) => {
   const [msgUid, setMsgUid] = useState();
   const history = useHistory();
   const fetchInfo = async () => {
-    /*
-    const res = await getProfile(match.params.id)
+    const res = await getProfile(match.params.id);
     if (res.error) {
-      console.log(res.errMsg)
+      window.alert(res.errMsg);
     } else {
-      const data = res.data
-      setProfileInfo(data)
-      setTargetUid(data.uid)
+      const data = res.data;
+      setProfileInfo(data);
+      setTargetUid(data.uid);
     }
-    */
-    setProfileInfo({
-      uid: "test",
-      firstName: "Joe",
-      lastName: "Bruin",
-      major: "Computer Science",
-      year: 3,
-      rating: 3,
-      classes: [
-        "CS 111",
-        "COMSCI 131",
-        "CS 130",
-        "MATH 143",
-        "CS 111",
-        "CHEM 131",
-        "CS 130",
-        "PHYSICS 143",
-        "CS 111",
-      ],
-      messages: [],
-      notifications: [],
-    });
-    setTargetUid("test");
   };
   useEffect(() => {
     fetchInfo();
+    console.log("fetching user info");
   }, []);
 
-  const setProfileUrl = (url) => {
+  const setProfileUrl = async (url) => {
+    await uploadProfilePicture(uid, url);
     setProfileInfo({
       ...profileInfo,
       profileUrl: url,
