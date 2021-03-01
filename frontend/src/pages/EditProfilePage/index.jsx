@@ -62,7 +62,7 @@ const EditProfilePage = ({ uid }) => {
   };
 
   return (
-    <PageFrame>
+    <PageFrame onTitleClick={() => history.push("/search/")}>
       <Frame>
         <Text style={{ fontSize: 22, fontWeight: "bold", margin: 20 }}>
           Profile
