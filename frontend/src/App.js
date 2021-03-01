@@ -8,13 +8,13 @@ import CoverPage from "./pages/CoverPage";
 import "./index.css";
 import { NotificationTypes } from "./config.js";
 import { useState, useEffect } from "react";
+import { getNotifications } from "./api";
 
 function App() {
   const [uid, setUid] = useState("");
   const [notificationOn, setNotificationOn] = useState(false);
   const [notifications, setNotifications] = useState([
     {
-      id: "xxx",
       msg: "This is a message from xxx",
       createdDate: new Date(),
       read: false,
@@ -23,20 +23,10 @@ function App() {
       to: "xxx",
     },
     {
-      id: "xxx",
       msg: "Invitation from xxx",
       createdDate: new Date(),
       read: false,
       type: NotificationTypes.INVITE,
-      from: "xxx",
-      to: "xxx",
-    },
-    {
-      id: "xxx",
-      msg: "Termination from xxx",
-      createdDate: new Date(),
-      read: false,
-      type: NotificationTypes.TERMINATE,
       from: "xxx",
       to: "xxx",
     },
@@ -159,7 +149,19 @@ function App() {
     setUid("test");
   }, []);
 
-  console.log(uid);
+  useEffect(() => {
+    retrieveNotifications(uid);
+  }, [uid]);
+
+  const retrieveNotifications = async (uid) => {
+    const res = await getNotifications(uid);
+    if (res.error) {
+      window.alert(res.errMsg);
+    } else {
+      const data = res.data;
+      setNotifications(data.notifications);
+    }
+  };
 
   return (
     <Router>

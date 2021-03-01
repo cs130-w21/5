@@ -40,7 +40,6 @@ export const icons = {
 };
 
 export const NotificationTypes = {
-  MSG: 0,
-  INVITE: 1,
-  TERMINATE: 2,
+  MSG: "MESSAGE",
+  INVITE: "INVITATION",
 };
