@@ -236,7 +236,11 @@ export const initiateRequest = async (studentUID, tutorUID) => {
       return createSuccess(data.payload);
     }
   } catch (e) {
+<<<<<<< HEAD
     return createError(e, "server not working for initiating match request");
+=======
+    return createError(e, "server disconnected.");
+>>>>>>> 522716e32c32960af90d69710768bcb01cbf5234
   }
 };
 
@@ -263,7 +267,11 @@ export const tutorRespondRequest = async (
       return createSuccess(data.payload);
     }
   } catch (e) {
+<<<<<<< HEAD
     return createError(e, "server not working for tutor response request.");
+=======
+    return createError(e, "server disconnected.");
+>>>>>>> 522716e32c32960af90d69710768bcb01cbf5234
   }
 };
 
@@ -285,7 +293,11 @@ export const tutorCheckRequest = async (tutorUID) => {
       return createSuccess(data.payload);
     }
   } catch (e) {
+<<<<<<< HEAD
     return createError(e, "server not working for checking tutor response.");
+=======
+    return createError(e, "server disconnected.");
+>>>>>>> 522716e32c32960af90d69710768bcb01cbf5234
   }
 };
 
@@ -308,7 +320,11 @@ export const studentCheckResponse = async (studentUID, tutorUID) => {
       return createSuccess(data.payload);
     }
   } catch (e) {
+<<<<<<< HEAD
     return createError(e, "server not working for checking student response.");
+=======
+    return createError(e, "server disconnected.");
+>>>>>>> 522716e32c32960af90d69710768bcb01cbf5234
   }
 };
 
@@ -328,6 +344,7 @@ export const getClassList = async (subjectArea) => {
       return createSuccess(data.payload);
     }
   } catch (e) {
+<<<<<<< HEAD
     return createError(e, "server not working for getting class list.");
   }
 };
@@ -356,6 +373,17 @@ export const addNotification = async (uid, notification) => {
     const res = await POST("/notification/add", {
       uid,
       notification,
+=======
+    return createError(e, "server disconnected.");
+  }
+};
+
+export const uploadProfilePicture = async (uid, profilePicUrl) => {
+  try {
+    const res = await POST("/profile/pictureUpload", {
+      uid,
+      profilePicUrl,
+>>>>>>> 522716e32c32960af90d69710768bcb01cbf5234
     });
     if (res.status != 200) {
       return createError(res, "Status Error: " + res.status);
@@ -367,6 +395,7 @@ export const addNotification = async (uid, notification) => {
       return createSuccess(data.payload);
     }
   } catch (e) {
+<<<<<<< HEAD
     return createError(e, "server not working for adding notifications.");
   }
 };
@@ -396,6 +425,15 @@ export const setSchedule = async (uid, bytes) => {
       uid,
       bytes,
     });
+=======
+    return createError(e, "Server disconnected");
+  }
+};
+
+export const getUid = async () => {
+  try {
+    const res = await GET("/auth/getuid");
+>>>>>>> 522716e32c32960af90d69710768bcb01cbf5234
     if (res.status != 200) {
       return createError(res, "Status Error: " + res.status);
     }
@@ -406,6 +444,10 @@ export const setSchedule = async (uid, bytes) => {
       return createSuccess(data.payload);
     }
   } catch (e) {
+<<<<<<< HEAD
     return createError(e, "server not working for setting schedules.");
+=======
+    return createError(e, "Server disconnected");
+>>>>>>> 522716e32c32960af90d69710768bcb01cbf5234
   }
 };

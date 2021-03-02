@@ -8,7 +8,7 @@ import CoverPage from "./pages/CoverPage";
 import "./index.css";
 import { NotificationTypes } from "./config.js";
 import { useState, useEffect } from "react";
-import { getNotifications } from "./api";
+import { getNotifications, getUid } from "./api";
 
 function App() {
   const [uid, setUid] = useState("");
@@ -144,9 +144,9 @@ function App() {
     "test4",
     "test5",
   ]);
+
   useEffect(() => {
-    // TO DO: fetch uid from the server
-    setUid("test");
+    getAuthState();
   }, []);
 
   useEffect(() => {
@@ -160,6 +160,16 @@ function App() {
     } else {
       const data = res.data;
       setNotifications(data.notifications);
+    }
+  };
+
+  const getAuthState = async () => {
+    const res = await getUid();
+    if (res.error) {
+      window.alert(res.errMsg);
+    } else {
+      const data = res.data;
+      setUid(data.uid);
     }
   };
 
