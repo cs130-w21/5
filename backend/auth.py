@@ -112,7 +112,7 @@ def reset ():
     redis_client = current_app.config['RDSCXN']
     if request.method == 'POST':
         data = request.get_json(force=True)
-        email = data['password']
+        password = data['password']
 
         error = None
 
