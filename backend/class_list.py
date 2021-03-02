@@ -30,5 +30,5 @@ def class_list():
 
         class_file.close()
         return jsonResponse({"classList": classes})
-    return errorResponse('GET to this endpoint')
+    return errorResponse('POST to this endpoint')
 
