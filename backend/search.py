@@ -23,7 +23,7 @@ def search_results():
         uid_list = []
         for u in users:
             user = redis_client.hgetall(u)
-            uid = int(u[-1])
+            uid = int(u[4:])
 
             user_name = construct_name(user)
             classes = redis_client.lrange("classes{}".format(uid), 0, -1)

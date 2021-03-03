@@ -16,18 +16,18 @@ def test_search(client, app):
     redis_client = app.config['RDSCXN']
     url = 'api/search/get'
 
-    create_user(1, 'John', 'Doe', 'Computer Science', ['CS 180', 'CS 111'], redis_client, '1', [1, 15, 37])
-    create_user(2, 'Jill', 'Doe', 'Biology', ['Bio 121', 'Bio 35', 'Bio 173'], redis_client, '1', [1, 22, 24])
-    create_user(3, 'JDoNot', 'Show', 'Biology', ['Bio 35', 'CS 111'], redis_client, '0', [1, 22, 24])
-    search_result({'name': 'J'}, [1, 2], client, url)
-    search_result({'name': 'Jo'}, [1], client, url)
+    create_user(11, 'John', 'Doe', 'Computer Science', ['CS 180', 'CS 111'], redis_client, '1', [1, 15, 37])
+    create_user(12, 'Jill', 'Doe', 'Biology', ['Bio 121', 'Bio 35', 'Bio 173'], redis_client, '1', [1, 22, 24])
+    create_user(13, 'JDoNot', 'Show', 'Biology', ['Bio 35', 'CS 111'], redis_client, '0', [1, 22, 24])
+    search_result({'name': 'J'}, [11, 12], client, url)
+    search_result({'name': 'Jo'}, [11], client, url)
     search_result({'name': 'Ji', 'class': ['CS 180']}, [], client, url)
-    search_result({'name': 'hn Do'}, [1], client, url)
-    search_result({'major': 'Biology'}, [2], client, url)
-    search_result({'name': 'Jill Doe', 'major': 'Biology', 'class': ['Bio 35']}, [2], client, url)
-    search_result({'name': 'J', 'class': ['Bio 35', 'CS 111']}, [1, 2], client, url)
-    search_result({'bytes': create_schedule([1])}, [1, 2], client, url)
-    search_result({'bytes': create_schedule([15])}, [1], client, url)
+    search_result({'name': 'hn Do'}, [11], client, url)
+    search_result({'major': 'Biology'}, [12], client, url)
+    search_result({'name': 'Jill Doe', 'major': 'Biology', 'class': ['Bio 35']}, [12], client, url)
+    search_result({'name': 'J', 'class': ['Bio 35', 'CS 111']}, [11, 12], client, url)
+    search_result({'bytes': create_schedule([1])}, [11, 12], client, url)
+    search_result({'bytes': create_schedule([15])}, [11], client, url)
     search_result({'bytes': create_schedule([17])}, [], client, url)
 
 
