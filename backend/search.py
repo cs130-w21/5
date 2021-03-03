@@ -4,10 +4,10 @@ from flask import (
 bp = Blueprint('search', __name__, url_prefix='/api/search')
 from form_response import *
 
-@bp.route('/get', methods=['GET'])
+@bp.route('/get', methods=['POST'])
 def search_results():
     redis_client = current_app.config['RDSCXN']
-    if request.method == 'GET':
+    if request.method == 'POST':
         data = request.get_json()
 
         if not data:

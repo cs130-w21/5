@@ -33,7 +33,7 @@ def test_search(client, app):
 
 def search_result(values, expected, client, url):
     search1 = json.dumps(values)
-    search1_response = client.get(url, headers={'Content-Type': 'application/json'}, data=search1)
+    search1_response = client.post(url, headers={'Content-Type': 'application/json'}, data=search1)
     search1_response_json = search1_response.json
     assert search1_response.status_code == 200
     assert not search1_response_json['error']
