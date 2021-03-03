@@ -35,6 +35,7 @@ const DayMap = {
   6: "Sat",
 };
 
+
 const Calendar = ({
   data = [],
   setData = () => {},
