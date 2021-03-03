@@ -181,7 +181,7 @@ export const sendMsg = async (from, to, msg) => {
       from,
       to,
       msg,
-      createdDate: new Date(),
+      createdDate: new Date().now(),
     };
     const res = await POST("/message/add", newMsg);
     if (res.status !== 200) {
@@ -331,6 +331,7 @@ export const getClassList = async (subjectArea) => {
     return createError(e, "server disconnected.");
   }
 };
+
 
 export const uploadProfilePicture = async (uid, profilePicUrl) => {
   try {
