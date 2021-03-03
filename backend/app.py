@@ -11,6 +11,8 @@ def create_app(test_config=None):
         rdscli.r.set('next_uid', 1)
     if rdscli.r.get('next_mid') == None:
         rdscli.r.set('next_mid', 1)
+    if rdscli.r.get('next_nid') == None:
+        rdscli.r.set('next_nid', 1)
     rdscli.r.bgsave()
     app.config.from_mapping(
         SECRET_KEY = 'dev',
