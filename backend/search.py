@@ -15,10 +15,9 @@ def search_results():
             return errorResponse(error)
 
         name = data.get('name')
-        cla = data.get('class') # TODO multiple classes
+        cla = data.get('class')
         major = data.get('major')
         schedule = data.get('bytes')
-        # TODO schedule overlap 2d array 7x6
 
         users = redis_client.keys('user*')
         uid_list = []
@@ -42,7 +41,7 @@ def search_results():
             else:
                 isTutor = False
 
-            user_sched = redis_client.get('schedule{}'.format(uid))
+            user_sched = list(map(int, redis_client.lrange('schedule{}'.format(uid), 0, -1)))
             overlaps = schedule_overlaps(schedule, user_sched)
 
             if (not name or user_name.find(name) >= 0) and \
@@ -70,7 +69,7 @@ def schedule_overlaps(schedule, user_sched):
         return False
 
     for i in range(len(schedule)):
-        if schedule[i] == user_sched[i]:
+        if schedule[i] == 1 and user_sched[i] == 1:
             return True
 
     return False
