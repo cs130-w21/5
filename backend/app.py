@@ -1,5 +1,5 @@
 import os
-import auth, profile, class_list, match
+import auth, profile, class_list, match, search
 from flask import Flask
 import rdscli
 
@@ -32,6 +32,7 @@ def create_app(test_config=None):
     app.register_blueprint(profile.bp)
     app.register_blueprint(class_list.bp)
     app.register_blueprint(match.bp)
+    app.register_blueprint(search.bp)
 
     return app
 
