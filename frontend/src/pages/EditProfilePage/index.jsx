@@ -20,8 +20,7 @@ const EditProfilePage = ({ uid }) => {
   const history = useHistory();
 
   // ** Move to the search page as well 
-  // Move the selectedClass, setSelectedClass from drop down to edit profile page 
-  const [selectedClass, setSelectedClass] = useState("");
+  const [selectedClass, setSelectedClass] = useState("default selected class");
 
   const addClass = (entry) => {
     if (classes.indexOf(entry) === -1) setClasses([...classes, entry]);
@@ -52,6 +51,18 @@ const EditProfilePage = ({ uid }) => {
       // TO DO, change the states of the user
     }
   };
+
+  // This function will set the selectedClass state and call the addClass function as well 
+  const dropDownHandler = (pickClass) => {
+
+    //call the setSelectedClass
+    setClasses(pickClass);
+    console.log("This is my picked classes" + pickClass);
+    console.log("This is my selected class" + selectedClass);
+
+    // call the add class method to put into the list 
+    addClass(pickClass);
+  }
 
   return (
     <PageFrame onTitleClick={() => history.push("/search/")}>
@@ -92,8 +103,7 @@ const EditProfilePage = ({ uid }) => {
           onInput={(e) => setEditYear(e.target.value)}
         />
         <Text>Classes</Text>
-        <AppDropDown onSelect={addClass} selectedClass={selectedClass} setSelectedClass={setSelectedClass}></AppDropDown>
-        {/* <AppDropDown onSelect={addClass}></AppDropDown> */}
+        <AppDropDown onSelect={dropDownHandler} selectedClass={selectedClass} setSelectedClass={setSelectedClass}></AppDropDown>
         <Frame style={{ flexDirection: "row" }}>
           {classes.map((entry, index) => (
             <Course
