@@ -136,6 +136,7 @@ function App() {
             render={({ match }) => (
               <ProfilePage
                 uid={uid}
+                setUserStore={setUserStore}
                 userStore={userStore}
                 contacts={contacts}
                 notifications={notifications}

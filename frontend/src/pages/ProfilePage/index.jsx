@@ -21,6 +21,7 @@ const ProfilePage = ({
   notificationOn,
   notifications,
   setNotificationOn,
+  setUserStore,
 }) => {
   const [profileInfo, setProfileInfo] = useState();
   const [targetUid, setTargetUid] = useState();
@@ -33,11 +34,16 @@ const ProfilePage = ({
     } else {
       const data = res.data;
       setProfileInfo(data);
+      setUserStore({
+        ...userStore,
+        [match.params.id]: data,
+      });
       setTargetUid(match.params.id);
     }
   };
   useEffect(() => {
     fetchInfo();
+    if (!isOwner) setMsgUid(match.params.id);
     console.log("fetching user info");
   }, [match.params.id]);
 
