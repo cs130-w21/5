@@ -133,13 +133,14 @@ const AppDropDown = (selectedClass, setSelectedClass) => {
       console.log(res.errMsg);
     } else {
       const data = res.data;
-      // assume the field called classes
-      const subClasses = data.classes;
-
-      let subclassFromApi = subClasses.map((item) => {
-        return { label: item, value: item };
+      // console.log("This is my parse data: " + JSON.parse(JSON.stringify(data)));
+      var class_list = JSON.parse(JSON.stringify(data))
+      var class_array = class_list.classList;
+      console.log(class_list.classList);
+   
+      let subclassFromApi = class_array.map((item) => {
+        return {label: item, value: item};
       });
-
       setClassList(subclassFromApi);
     }
   };
