@@ -6,6 +6,15 @@ import TutorList from "../../components/TutorList";
 import NotificationBar from "../../components/NotificationBar";
 import TouchableOpacity from "../../components/TouchableOpacity";
 import { icons } from "../../config";
+
+// You can pass these to the app drop down as: <AppDropDown onSelect={dropDownHandler} selectedClass={selectedClass} setSelectedClass={setSelectedClass}></AppDropDown>
+const [selectClass, setSelectClass] = useState([]);
+
+const dropDownHandler = (pickClass) => {
+  // set the state to contain the selected class 
+  setSelectClass(pickClass);
+}
+
 const SearchPage = ({
   uid,
   userStore,
