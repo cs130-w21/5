@@ -24,7 +24,6 @@ const InfoSection = ({
   targetUid,
 }) => {
   const history = useHistory();
-  console.log(uid);
   return (
     <ProfileFrame
       style={{ width: 300, height: 300, margin: 10, position: "relative" }}
