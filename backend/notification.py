@@ -12,7 +12,7 @@ from form_response import *
 bp = Blueprint('notification', __name__, url_prefix='/api/notification')
 
 @bp.route('/add', methods=('GET', 'POST'))
-def set():
+def add():
     redis_client = current_app.config['RDSCXN']
     if request.method == 'POST':
         data = request.get_json()
