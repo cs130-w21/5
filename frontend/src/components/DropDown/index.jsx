@@ -112,34 +112,50 @@ const subjectArea = [
 ];
 
 // Check this
-const AppDropDown = (selectedClass, setSelectedClass) => {
-  // Test with some dummy values if selected subject = Art (dummy values)
-  // const entries = ["Art_1A", "Art_1B", "Art_11A", "Art_11B"];
-  // // Testing purpose
+const AppDropDown = ({selectedClass, setSelectedClass}) => {
+
+  const [classList, setClassList] = useState([]);
+  // The seletced class is stored in pick class state variable 
+  // const [pickClass, setPickedClass] = useState([]);
+
   // const handleGetClassList2 = () => {
-  //   let subclassFromApi = entries.map((item) => {
+
+  //   // Move inside here
+  //   const dummy = {"classList": ["Anthropology 1","Anthropology 3","Anthropology 4","Anthropology 19","Anthropology 19","Anthropology 19","Anthropology 89HC","Anthropology 98T"]}
+
+  //   // Move to the actual one 
+  //   console.log(dummy.classList);
+  //   // This gives me an array;
+  //   const dummy_array = dummy.classList;
+
+  //   let subclassFromApi = dummy_array.map((item) => {
   //     return {label: item, value: item};
   //   });
   //   setClassList(subclassFromApi);
   // }
 
-  const [classList, setClassList] = useState([]);
-  // Moved to edit profile page
-  // const [selectedClass, setSelectedClass] = useState("");
-
   const handleGetClassList = async (selectedSubject) => {
+
+    // selectedSubject is not empty 
+    if (selectedSubject != null) {
+      // selectedSubject is not empty here 
+      console.log(selectedSubject);
+    } 
+
     const res = await getClassList(selectedSubject);
     if (res.error) {
       console.log(res.errMsg);
     } else {
       const data = res.data;
-      // assume the field called classes
-      const subClasses = data.classes;
 
-      let subclassFromApi = subClasses.map((item) => {
-        return { label: item, value: item };
+      // console.log("This is my parse data: " + JSON.parse(JSON.stringify(data)));
+      var class_list = JSON.parse(JSON.stringify(data))
+      var class_array = class_list.classList;
+      console.log(class_list.classList);
+  
+      let subclassFromApi = class_array.map((item) => {
+        return {label: item, value: item};
       });
-
       setClassList(subclassFromApi);
     }
   };
