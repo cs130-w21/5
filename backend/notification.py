@@ -24,7 +24,7 @@ def set():
         if uid is None:
             error = 'uid is required.'
             return errorResponse(error)
-        elif bytes is None:
+        elif notification is None:
             error = 'bytes is required.'
             return errorResponse(error)
         for entry in ['msg', 'createdDate', 'read', 'type', 'from', 'to']:
@@ -35,6 +35,27 @@ def set():
         next_nid = redis_client.get('next_nid')
         redis_client.incr('next_nid')
         redis_client.hmset("notif{}".format(next_nid), {'from': notification['from'], 'to': notification['to'], 'msg': notification['msg'], 'createdDate': notification['createdDate'], 'type': notification['type']})
-        redis_client.rpush("notifications{}".format(toUid), next_nid)
+        redis_client.rpush("notifications{}".format(uid), next_nid)
         return jsonResponse()
+    return jsonResponse()
+
+@bp.route('/get', methods=('GET', 'POST'))
+def get():
+    redis_client = current_app.config['RDSCXN']
+    if request.method == 'POST':
+        data = request.get_json()
+        if not data:
+            error = 'Data Body Required'
+            return errorResponse(error)
+        uid = data['uid'] if 'uid' in data.keys() else None
+        if uid is None:
+            error = 'uid is required.'
+            return errorResponse(error)
+
+        nids = redis_client.lrange('notifications{}'.format(uid), 0, -1)
+        notifs = []
+        for nid in nids:
+            notifs.append(redis_client.hgetall("notif{}".format(nid)))
+
+        return jsonResponse({'notification': notifs})
     return jsonResponse()
