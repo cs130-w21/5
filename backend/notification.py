@@ -59,3 +59,29 @@ def get():
 
         return jsonResponse({'notification': notifs})
     return jsonResponse()
+
+@bp.route('/delete', methods=('GET', 'POST'))
+def delete():
+    redis_client = current_app.config['RDSCXN']
+    if request.method == 'POST':
+        data = request.get_json()
+        if not data:
+            error = 'Data Body Required'
+            return errorResponse(error)
+        uid = data['uid'] if 'uid' in data.keys() else None
+        notificationID = data['notificationID'] if 'notificationID' in data.keys() else None
+        if uid is None:
+            error = 'uid is required.'
+            return errorResponse(error)
+        if notificationID is None:
+            error = 'notificationID is required.'
+            return errorResponse(error)
+        user_notifications = redis_client.lrange("notifications{}".format(uid), 0, -1)
+        if notificationID not in user_notifications:
+            error = 'User with UID {} does not have notification with ID {}'.format(uid, notificationID)
+            return errorResponse(error)
+
+        redis_client.lrem("notifications{}".format(uid), 0, notificationID)
+
+        return jsonResponse()
+    return jsonResponse()
