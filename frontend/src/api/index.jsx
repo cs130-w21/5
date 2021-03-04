@@ -80,6 +80,7 @@ export const signInRequest = async (email, password) => {
       return createSuccess(data.payload);
     }
   } catch (e) {
+    console.log(e);
     return createError(e, "server not working for signing in ");
   }
 };
@@ -127,7 +128,6 @@ export const editProfile = async (
   uid,
   firstName,
   lastName,
-  email,
   major,
   year,
   classes
@@ -137,7 +137,6 @@ export const editProfile = async (
       uid,
       firstName,
       lastName,
-      email,
       major,
       year,
       classes,
@@ -236,11 +235,7 @@ export const initiateRequest = async (studentUID, tutorUID) => {
       return createSuccess(data.payload);
     }
   } catch (e) {
-<<<<<<< HEAD
     return createError(e, "server not working for initiating match request");
-=======
-    return createError(e, "server disconnected.");
->>>>>>> 522716e32c32960af90d69710768bcb01cbf5234
   }
 };
 
@@ -267,11 +262,7 @@ export const tutorRespondRequest = async (
       return createSuccess(data.payload);
     }
   } catch (e) {
-<<<<<<< HEAD
     return createError(e, "server not working for tutor response request.");
-=======
-    return createError(e, "server disconnected.");
->>>>>>> 522716e32c32960af90d69710768bcb01cbf5234
   }
 };
 
@@ -293,11 +284,7 @@ export const tutorCheckRequest = async (tutorUID) => {
       return createSuccess(data.payload);
     }
   } catch (e) {
-<<<<<<< HEAD
     return createError(e, "server not working for checking tutor response.");
-=======
-    return createError(e, "server disconnected.");
->>>>>>> 522716e32c32960af90d69710768bcb01cbf5234
   }
 };
 
@@ -320,11 +307,7 @@ export const studentCheckResponse = async (studentUID, tutorUID) => {
       return createSuccess(data.payload);
     }
   } catch (e) {
-<<<<<<< HEAD
     return createError(e, "server not working for checking student response.");
-=======
-    return createError(e, "server disconnected.");
->>>>>>> 522716e32c32960af90d69710768bcb01cbf5234
   }
 };
 
@@ -344,7 +327,6 @@ export const getClassList = async (subjectArea) => {
       return createSuccess(data.payload);
     }
   } catch (e) {
-<<<<<<< HEAD
     return createError(e, "server not working for getting class list.");
   }
 };
@@ -373,17 +355,6 @@ export const addNotification = async (uid, notification) => {
     const res = await POST("/notification/add", {
       uid,
       notification,
-=======
-    return createError(e, "server disconnected.");
-  }
-};
-
-export const uploadProfilePicture = async (uid, profilePicUrl) => {
-  try {
-    const res = await POST("/profile/pictureUpload", {
-      uid,
-      profilePicUrl,
->>>>>>> 522716e32c32960af90d69710768bcb01cbf5234
     });
     if (res.status != 200) {
       return createError(res, "Status Error: " + res.status);
@@ -395,8 +366,27 @@ export const uploadProfilePicture = async (uid, profilePicUrl) => {
       return createSuccess(data.payload);
     }
   } catch (e) {
-<<<<<<< HEAD
     return createError(e, "server not working for adding notifications.");
+  }
+};
+
+export const uploadProfilePicture = async (uid, profilePicUrl) => {
+  try {
+    const res = await POST("/profile/pictureUpload", {
+      uid,
+      profilePicUrl,
+    });
+    if (res.status != 200) {
+      return createError(res, "Status Error: " + res.status);
+    }
+    const data = await res.json();
+    if (data.error) {
+      return createError(null, data.errMsg);
+    } else {
+      return createSuccess(data.payload);
+    }
+  } catch (e) {
+    return createError(e, "server not working for uploading profile picture.");
   }
 };
 
@@ -425,15 +415,6 @@ export const setSchedule = async (uid, bytes) => {
       uid,
       bytes,
     });
-=======
-    return createError(e, "Server disconnected");
-  }
-};
-
-export const getUid = async () => {
-  try {
-    const res = await GET("/auth/getuid");
->>>>>>> 522716e32c32960af90d69710768bcb01cbf5234
     if (res.status != 200) {
       return createError(res, "Status Error: " + res.status);
     }
@@ -444,10 +425,42 @@ export const getUid = async () => {
       return createSuccess(data.payload);
     }
   } catch (e) {
-<<<<<<< HEAD
     return createError(e, "server not working for setting schedules.");
-=======
-    return createError(e, "Server disconnected");
->>>>>>> 522716e32c32960af90d69710768bcb01cbf5234
+  }
+};
+
+export const getUid = async () => {
+  try {
+    const res = await GET("/auth/getuid");
+    if (res.status != 200) {
+      return createError(res, "Status Error: " + res.status);
+    }
+    const data = await res.json();
+    if (data.error) {
+      return createError(null, data.errMsg);
+    } else {
+      return createSuccess(data.payload);
+    }
+  } catch (e) {
+    return createError(e, "server not working for getting uid.");
+  }
+};
+
+export const getContacts = async (uid) => {
+  try {
+    const res = await POST("/contacts/get", {
+      uid,
+    });
+    if (res.status != 200) {
+      return createError(res, "Status Error: " + res.status);
+    }
+    const data = await res.json();
+    if (data.error) {
+      return createError(null, data.errMsg);
+    } else {
+      return createSuccess(data.payload);
+    }
+  } catch (e) {
+    return createError(e, "server not working for getting contacts.");
   }
 };

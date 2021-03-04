@@ -20,6 +20,7 @@ def edit():
         classes = data['classes']
         uid = data['uid']
         error = None
+        print(data)
 
         if not redis_client.keys("user{}".format(uid)):
             error = "User with UID {} not found".format(uid)

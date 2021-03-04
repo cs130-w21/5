@@ -8,7 +8,7 @@ import CoverPage from "./pages/CoverPage";
 import "./index.css";
 import { NotificationTypes } from "./config.js";
 import { useState, useEffect } from "react";
-import { getNotifications, getUid } from "./api";
+import { getNotifications, getContacts, getUid } from "./api";
 
 function App() {
   const [uid, setUid] = useState("");
@@ -31,119 +31,9 @@ function App() {
       to: "xxx",
     },
   ]);
-  const [userStore, setUserStore] = useState({
-    test: {
-      uid: "test",
-      firstName: "Joe",
-      lastName: "Bruin",
-      major: "Computer Science",
-      year: 3,
-      rating: 3,
-      classes: [
-        "CS 111",
-        "COMSCI 131",
-        "CS 130",
-        "MATH 143",
-        "CS 111",
-        "CHEM 131",
-        "CS 130",
-        "PHYSICS 143",
-        "CS 111",
-      ],
-    },
-    test2: {
-      uid: "test2",
-      firstName: "First",
-      lastName: "Last",
-      major: "Biology",
-      year: 4,
-      rating: 3,
-      classes: [
-        "CS130",
-        "CS130",
-        "CS130",
-        "CS130",
-        "CS130",
-        "CS130",
-        "CS130",
-        "CS130",
-        "CS130",
-        "CS130",
-      ],
-    },
-    test3: {
-      uid: "test3",
-      firstName: "First",
-      lastName: "Last",
-      major: "Biology",
-      year: 4,
-      rating: 4,
-      classes: [
-        "CS130",
-        "CS130",
-        "CS130",
-        "CS130",
-        "CS130",
-        "CS130",
-        "CS130",
-        "CS130",
-        "CS130",
-        "CS130",
-      ],
-    },
-    test4: {
-      uid: "test4",
-      firstName: "First",
-      lastName: "Last",
-      major: "Biology",
-      year: 4,
-      rating: 1,
-      classes: [
-        "CS130",
-        "CS130",
-        "CS130",
-        "CS130",
-        "CS130",
-        "CS130",
-        "CS130",
-        "CS130",
-        "CS130",
-        "CS130",
-      ],
-    },
-    test5: {
-      uid: "test5",
-      firstName: "First",
-      lastName: "Last",
-      major: "Biology",
-      year: 4,
-      rating: 5,
-      classes: [
-        "CS130",
-        "CS130",
-        "CS130",
-        "CS130",
-        "CS130",
-        "CS130",
-        "CS130",
-        "CS130",
-        "CS130",
-        "CS130",
-      ],
-    },
-  });
-  const [contacts, setContacts] = useState([
-    "test2",
-    "test3",
-    "test4",
-    "test5",
-  ]);
-  const [matchedTutors, setMatchedTutors] = useState([
-    "test2",
-    "test3",
-    "test4",
-    "test5",
-  ]);
+  const [userStore, setUserStore] = useState({});
+  const [contacts, setContacts] = useState([]);
+  const [matchedTutors, setMatchedTutors] = useState([]);
 
   useEffect(() => {
     getAuthState();
@@ -151,6 +41,7 @@ function App() {
 
   useEffect(() => {
     retrieveNotifications(uid);
+    retrieveContacts(uid);
   }, [uid]);
 
   const retrieveNotifications = async (uid) => {
@@ -160,6 +51,16 @@ function App() {
     } else {
       const data = res.data;
       setNotifications(data.notifications);
+    }
+  };
+
+  const retrieveContacts = async (uid) => {
+    const res = await getContacts(uid);
+    if (res.error) {
+      window.alert(res.errMsg);
+    } else {
+      const data = res.data;
+      setContacts(data.contacts);
     }
   };
 

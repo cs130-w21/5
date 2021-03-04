@@ -8,7 +8,7 @@ import ContactSection from "../../components/ContactSection";
 import NotificationBar from "../../components/NotificationBar";
 import { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
-import { getProfile } from "../../api";
+import { getProfile, uploadProfilePicture } from "../../api";
 import TouchableOpacity from "../../components/TouchableOpacity";
 import { icons } from "../../config";
 
@@ -38,7 +38,7 @@ const ProfilePage = ({
   useEffect(() => {
     fetchInfo();
     console.log("fetching user info");
-  }, []);
+  }, [match.params.id]);
 
   const setProfileUrl = async (url) => {
     await uploadProfilePicture(uid, url);
@@ -86,7 +86,8 @@ const ProfilePage = ({
               {profileInfo && (
                 <InfoSection
                   isOwner={isOwner}
-                  uid={profileInfo.uid}
+                  uid={uid}
+                  targetUid={profileInfo.uid}
                   profileUrl={profileInfo.profileUrl}
                   setProfileUrl={setProfileUrl}
                   firstName={profileInfo.firstName}

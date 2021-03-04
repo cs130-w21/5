@@ -1,4 +1,5 @@
 import os
+# for singleton mode from flask_cors import CORS, cross_origin
 import auth, profile, class_list, recovery, match
 from flask import Flask
 import rdscli
@@ -7,6 +8,7 @@ rdscli.connect()
 def create_app(test_config=None):
     # create and configure the app
     app = Flask(__name__, instance_relative_config=True)
+    # for singleton mode CORS(app, supports_credentials = True)
     if rdscli.r.get('next_uid') == None:
         rdscli.r.set('next_uid', 1)
     rdscli.r.bgsave()

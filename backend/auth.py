@@ -9,7 +9,7 @@ from form_response import jsonResponse, errorResponse
 bp = Blueprint('auth', __name__, url_prefix='/api/auth')
 
 # TODO: why specify GET?
-@bp.route('/register', methods=('GET', 'POST'))
+@bp.route('/register', methods=['POST'])
 def register():
     redis_client = current_app.config['RDSCXN']
     if request.method == 'POST':
@@ -45,7 +45,7 @@ def register():
         return errorResponse(error)
     return errorResponse('POST to this endpoint')
 
-@bp.route('/login', methods=('GET', 'POST'))
+@bp.route('/login', methods=['POST'])
 def login():
     redis_client = current_app.config['RDSCXN']
     if request.method == 'POST':
@@ -69,59 +69,13 @@ def login():
         if error is None:
             session.clear()
             session['user_id'] = user['uid']
-<<<<<<< HEAD
-            resp_body_json = json.dumps({'error': False, 'uid': user['uid']})
-            return flask.Response(status=200, content_type='application/json', response=resp_body_json)
-
-        resp_body_json = json.dumps({'error': True, 'errMsg': error})
-        return flask.Response(status=200, content_type='application/json', response=resp_body_json)
-    return flask.Response(status=200, response='')
-
-@bp.route('/forgot', methods=('GET', 'POST'))
-def forgot():
-    redis_client = current_app.config['RDSCXN']
-    if request.method == 'POST':
-        data = request.get_json(force=True)
-        email = data['email']
-
-        error = None
-
-        user = None
-        for uid in redis_client.keys("uid*"):
-            u = redis_client.hgetall(uid)
-            if u['email'] == email:
-                user = u
-                break
-
-        if user is None:
-            error = 'Invalid email.'
-
-        if error is None:
-            # TODO: send forgot password email
-            return redirect(url_for('auth.login'))
-
-    return '', 200
-
-@bp.route('/reset', methods=('GET', 'POST'))
-def reset ():
-    redis_client = current_app.config['RDSCXN']
-    if request.method == 'POST':
-        data = request.get_json(force=True)
-        password = data['password']
-
-        error = None
-
-        uid = None
-        # TODO:  figure out user
-=======
             return jsonResponse({'uid': user['uid']})
->>>>>>> 522716e32c32960af90d69710768bcb01cbf5234
 
         return errorResponse(error)
     return errorResponse('POST to this endpoint')
 
 # a way for the frontend to get uid of currently logged in user, if avail
-@bp.route('/getuid')
+@bp.route('/getuid', methods=['GET'])
 def getuid():
     return jsonResponse({'uid': session.get('user_id')})
 
@@ -135,7 +89,7 @@ def load_logged_in_user():
     else:
         g.user = redis_client.hgetall(user_id)
 
-@bp.route('/logout')
+@bp.route('/logout', methods=['GET'])
 def logout():
     session.clear()
     return jsonResponse()

@@ -19,6 +19,7 @@ const InfoSection = ({
   major,
   year,
   uid,
+  targetUid,
 }) => {
   const history = useHistory();
   return (
@@ -48,7 +49,7 @@ const InfoSection = ({
       <Text style={{ fontSize: 16, fontWeight: "bold", margin: 5 }}>
         {major}
       </Text>
-      {isOwner && (
+      {isOwner ? (
         <AppButton
           style={{ width: 100, height: 30 }}
           onClick={() =>
@@ -62,6 +63,13 @@ const InfoSection = ({
           }
         >
           Edit Profile
+        </AppButton>
+      ) : (
+        <AppButton
+          style={{ width: 120, height: 30 }}
+          onClick={() => history.push("/profile/" + uid)}
+        >
+          Back to Profile
         </AppButton>
       )}
     </ProfileFrame>
