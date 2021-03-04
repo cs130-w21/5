@@ -24,6 +24,7 @@ const InfoSection = ({
   targetUid,
 }) => {
   const history = useHistory();
+  console.log(uid);
   return (
     <ProfileFrame
       style={{ width: 300, height: 300, margin: 10, position: "relative" }}
@@ -84,14 +85,14 @@ const InfoSection = ({
         >
           Edit Profile
         </AppButton>
-      ) : (
+      ) : uid ? (
         <AppButton
           style={{ width: 120, height: 30 }}
           onClick={() => history.push("/profile/" + uid)}
         >
           Back to Profile
         </AppButton>
-      )}
+      ) : (<div/>)}
     </ProfileFrame>
   );
 };
