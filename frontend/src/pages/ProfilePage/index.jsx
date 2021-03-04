@@ -6,11 +6,12 @@ import CourseSection from "../../components/CourseSection";
 import CalendarSection from "../../components/CalendarSection";
 import ContactSection from "../../components/ContactSection";
 import NotificationBar from "../../components/NotificationBar";
+import Text from "../../components/Text";
 import { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { getProfile, uploadProfilePicture } from "../../api";
 import TouchableOpacity from "../../components/TouchableOpacity";
-import { icons } from "../../config";
+import { icons, themeColors } from "../../config";
 
 const ProfilePage = ({
   match,
@@ -32,7 +33,7 @@ const ProfilePage = ({
     } else {
       const data = res.data;
       setProfileInfo(data);
-      setTargetUid(data.uid);
+      setTargetUid(match.params.id);
     }
   };
   useEffect(() => {
@@ -63,6 +64,19 @@ const ProfilePage = ({
             }}
           >
             {notificationOn ? icons.notificationOn : icons.notificationOff}
+            {notifications.length > 0 && (
+              <Text
+                style={{
+                  position: "absolute",
+                  top: 15,
+                  right: 13,
+                  backgroundColor: themeColors.red,
+                  borderRadius: "50%",
+                  width: 5,
+                  height: 5,
+                }}
+              ></Text>
+            )}
           </TouchableOpacity>
         }
       >
@@ -93,6 +107,7 @@ const ProfilePage = ({
                   firstName={profileInfo.firstName}
                   lastName={profileInfo.lastName}
                   year={profileInfo.year}
+                  isTutor={profileInfo.isTutor}
                   major={profileInfo.major}
                 />
               )}
@@ -107,7 +122,7 @@ const ProfilePage = ({
             </Frame>
             <Frame>
               {profileInfo && <CourseSection classes={profileInfo.classes} />}
-              <CalendarSection />
+              <CalendarSection targetUid={targetUid} editable={isOwner} />
             </Frame>
             <Frame>
               {profileInfo && (

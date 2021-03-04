@@ -8,7 +8,13 @@ import CoverPage from "./pages/CoverPage";
 import "./index.css";
 import { NotificationTypes } from "./config.js";
 import { useState, useEffect } from "react";
-import { getNotifications, getContacts, getUid } from "./api";
+import {
+  getNotifications,
+  getContacts,
+  getUid,
+  getProfile,
+  getSchedule,
+} from "./api";
 
 function App() {
   const [uid, setUid] = useState("");
@@ -40,9 +46,43 @@ function App() {
   }, []);
 
   useEffect(() => {
+    for (let id of matchedTutors) {
+      if (!(id in userStore)) {
+        retrieveProfile(id);
+      }
+    }
+  }, [matchedTutors]);
+
+  useEffect(() => {
+    for (let id of contacts) {
+      if (!id in userStore) {
+        retrieveProfile(id);
+      }
+    }
+  }, [contacts]);
+
+  useEffect(() => {
     retrieveNotifications(uid);
     retrieveContacts(uid);
   }, [uid]);
+
+  const retrieveProfile = async (uid) => {
+    const res = await getProfile(uid);
+    const schRes = await getSchedule(uid);
+    if (res.error) {
+      window.alert(res.errMsg);
+    } else {
+      const info = res.data;
+      const schedule = schRes.data;
+      info.uid = uid;
+      if (schedule.bytes.length > 0) info.schedule = schedule.bytes;
+      else info.schedule = Array(42).fill(0);
+      setUserStore({
+        ...userStore,
+        [uid]: info,
+      });
+    }
+  };
 
   const retrieveNotifications = async (uid) => {
     const res = await getNotifications(uid);
@@ -114,6 +154,7 @@ function App() {
                 match={match}
                 userStore={userStore}
                 matchedTutors={matchedTutors}
+                setMatchedTutors={setMatchedTutors}
                 notifications={notifications}
                 setNotificationOn={setNotificationOn}
                 notificationOn={notificationOn}

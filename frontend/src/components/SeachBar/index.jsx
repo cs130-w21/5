@@ -8,7 +8,7 @@ import Frame from "../Frame";
 import Text from "../Text";
 import { useState } from "react";
 import { icons, themeColors } from "../../config.js";
-import { Slider } from "antd";
+import { searchTutors } from "../../api";
 import "antd/dist/antd.css";
 
 const FilterCard = ({ name, content, height, cancelFunc }) => {
@@ -34,26 +34,12 @@ const FilterCard = ({ name, content, height, cancelFunc }) => {
   );
 };
 
-const marks = {
-  0: { style: styles.rating, label: "1★" },
-  25: { style: styles.rating, label: "2★" },
-  50: { style: styles.rating, label: "3★" },
-  75: { style: styles.rating, label: "4★" },
-  100: { style: styles.rating, label: "5★" },
-};
+const zeros = Array(42).fill(0);
 
-const SearchBar = () => {
+const SearchBar = ({ setMatchedTutors }) => {
   const [classes, setClasses] = useState([]);
-  const [rating, setRating] = useState([0, 100]);
-  const [schedule, setSchedule] = useState([
-    [0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0],
-  ]);
+  const [schedule, setSchedule] = useState(zeros);
+  const [name, setName] = useState("");
 
   const addClass = (entry) => {
     if (classes.indexOf(entry) === -1) setClasses([...classes, entry]);
@@ -67,11 +53,30 @@ const SearchBar = () => {
       setClasses(newClasses);
     }
   };
+
+  const handleSearch = async () => {
+    const res = await searchTutors(name, classes, schedule);
+    if (res.error) {
+      window.alert(res.errMsg);
+    } else {
+      const data = res.data;
+      console.log(res);
+      setMatchedTutors(data);
+    }
+  };
+
   return (
     <Frame style={styles.container}>
       <Frame style={{ flexDirection: "row" }}>
-        <AppTextInput style={styles.searchInput} placeholder={"Search"} />
-        <AppButton style={styles.searchBtn}>Go</AppButton>
+        <AppTextInput
+          style={styles.searchInput}
+          placeholder={"Search"}
+          onInput={(e) => setName(e.target.value)}
+          value={name}
+        />
+        <AppButton style={styles.searchBtn} onClick={handleSearch}>
+          Go
+        </AppButton>
       </Frame>
       <FilterCard
         name="Classes"
@@ -119,48 +124,22 @@ const SearchBar = () => {
         name="Availability"
         height={100}
         cancelFunc={() => {
-          setSchedule([
-            [0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0],
-          ]);
+          setSchedule(zeros);
         }}
         content={
           <Calendar
             data={schedule}
+            setData={setSchedule}
             width={200}
             height={100}
             editable={true}
-            style={{ margin: 10, fontSize: 8, color: themeColors.white }}
-          />
-        }
-      />
-      <FilterCard
-        name="Rating"
-        height={50}
-        cancelFunc={() => setRating([0, 100])}
-        content={
-          <Frame
             style={{
-              flexDirection: "row",
-              alignSelf: "stretch",
+              margin: 10,
+              fontSize: 8,
+              color: themeColors.white,
+              backgroundColor: themeColors.darkgray,
             }}
-          >
-            <Slider
-              tipFormatter={null}
-              style={{ width: 150, overflow: "visible" }}
-              range
-              marks={marks}
-              step={null}
-              value={rating}
-              onChange={setRating}
-              range={{ draggableTrack: true }}
-            />
-          </Frame>
+          />
         }
       />
     </Frame>

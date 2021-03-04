@@ -80,7 +80,6 @@ export const signInRequest = async (email, password) => {
       return createSuccess(data.payload);
     }
   } catch (e) {
-    console.log(e);
     return createError(e, "server not working for signing in ");
   }
 };
@@ -462,5 +461,26 @@ export const getContacts = async (uid) => {
     }
   } catch (e) {
     return createError(e, "server not working for getting contacts.");
+  }
+};
+
+export const searchTutors = async (name, classes, bytes) => {
+  try {
+    const res = await POST("/search/get", {
+      name,
+      classes,
+      bytes,
+    });
+    if (res.status != 200) {
+      return createError(res, "Status Error: " + res.status);
+    }
+    const data = await res.json();
+    if (data.error) {
+      return createError(null, data.errMsg);
+    } else {
+      return createSuccess(data.payload);
+    }
+  } catch (e) {
+    return createError(e, "server not working for searching tutors.");
   }
 };
