@@ -74,7 +74,6 @@ const MsgModal = ({ uid, msgUid, closeModal, userStore }) => {
     messages.map((msg) => {
       msgLines.push(<MsgLine message={msg} uid={uid} msgUid={msgUid} />);
     });
-  console.log(userStore);
 
   return (
     <div style={styles.container}>
