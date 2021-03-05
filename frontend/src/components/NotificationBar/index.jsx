@@ -9,7 +9,6 @@ import { useHistory } from "react-router-dom";
 
 const NotificationCard = ({ notification, checkNotification }) => {
   const history = useHistory();
-  console.log(notification);
   return (
     <TouchableOpacity
       style={styles.card}

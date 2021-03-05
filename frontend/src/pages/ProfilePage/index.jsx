@@ -117,7 +117,6 @@ const ProfilePage = ({
           <NotificationBar
             checkNotification={async (notifId) => {
               const res = await deleteNotification(uid, notifId);
-              console.log(res);
               if (!res.error) removeNotification(notifId);
             }}
             notifications={notifications}

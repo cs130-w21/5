@@ -38,7 +38,6 @@ function App() {
   }, [matchedTutors]);
 
   useEffect(() => {
-    console.log(contacts, userStore);
     for (let id of contacts) {
       if (!(id in userStore)) {
         retrieveProfile(id);

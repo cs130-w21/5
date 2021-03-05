@@ -1,4 +1,4 @@
-const HOST = "http://localhost:5000/api";
+const HOST = "http://localhost:8080/api";
 
 const POST = async (endpoint, data, extraOptions) => {
   const response = await fetch(HOST + endpoint, {
