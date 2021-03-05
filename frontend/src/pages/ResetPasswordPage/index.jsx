@@ -9,6 +9,7 @@ import { useHistory } from "react-router-dom";
 
 const ResetPasswordPage = ({ match }) => {
   let history = useHistory();
+
   const [passwd, setPassWd] = useState("");
   const [passwd_2, setPassWd_2] = useState("");
   const handleResetPwd = async () => {
