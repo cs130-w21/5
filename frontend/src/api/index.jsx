@@ -404,7 +404,6 @@ export const getUid = async () => {
       return createSuccess(data.payload);
     }
   } catch (e) {
-    console.log(e);
     return createError(e, "server not working for getting uid.");
   }
 };
