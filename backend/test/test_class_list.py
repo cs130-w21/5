@@ -14,7 +14,7 @@ def test_class_list(client, app):
     assert json_resp == {'error': False,
                          'errMsg': None,
                          'payload': {'classList': [
-                             "Medicine 99",
+                             "Medicine 19",
                              'Medicine 188SB']}}
 
     response = client.post(url, headers={'Content-Type': 'application/json'}, data=json.dumps({"randomBody": 1234}))
