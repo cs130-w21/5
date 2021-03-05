@@ -14,6 +14,7 @@ import {
   getUid,
   getProfile,
   getSchedule,
+  logOutRequest,
 } from "./api";
 
 function App() {
@@ -37,8 +38,9 @@ function App() {
   }, [matchedTutors]);
 
   useEffect(() => {
+    console.log(contacts, userStore);
     for (let id of contacts) {
-      if (!id in userStore) {
+      if (!(id in userStore)) {
         retrieveProfile(id);
       }
     }
@@ -57,6 +59,14 @@ function App() {
       if (uid) retrieveProfile(uid);
     }
   }, [notifications]);
+
+  const removeNotification = (notificationID) => {
+    let newNotifications = [...notifications];
+    newNotifications = newNotifications.filter(
+      (notif) => notif.notificationID !== notificationID
+    );
+    setNotifications(newNotifications);
+  };
 
   const retrieveProfile = async (uid) => {
     const res = await getProfile(uid);
@@ -106,6 +116,15 @@ function App() {
     }
   };
 
+  const logOut = async () => {
+    const res = await logOutRequest();
+    if (res.error) {
+      window.alert(res.errMsg);
+    } else {
+      setUid("");
+    }
+  };
+
   return (
     <Router>
       <div id="app">
@@ -134,7 +153,9 @@ function App() {
                 notifications={notifications}
                 setNotificationOn={setNotificationOn}
                 notificationOn={notificationOn}
+                removeNotification={removeNotification}
                 match={match}
+                logOut={logOut}
               />
             )}
           />
@@ -151,6 +172,7 @@ function App() {
                 notifications={notifications}
                 setNotificationOn={setNotificationOn}
                 notificationOn={notificationOn}
+                removeNotification={removeNotification}
               />
             )}
           />
