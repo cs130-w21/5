@@ -54,7 +54,9 @@ const AuthPage = ({ uid, setUid }) => {
     if (res.error) {
       window.alert(res.errMsg);
     } else {
-      // TO DO: notify the email
+      window.alert(
+        "An reset email will be sent to your email address: " + email
+      );
     }
   };
 
