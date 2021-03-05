@@ -34,9 +34,19 @@ const MsgModal = ({ uid, msgUid, closeModal, userStore }) => {
   const [text, changeText] = useState("");
   const [messages, setMessages] = useState([]);
   useEffect(() => {
-    const res = getMsgs(uid, msgUid);
-    if (res.data) setMessages(res.data.messages);
+    retrieveMsgs();
   }, [uid, msgUid]);
+
+  const retrieveMsgs = async () => {
+    const res = await getMsgs(uid, msgUid);
+    if (res.error) {
+      window.alert(res.errMsg);
+    } else {
+      if (res.data) {
+        setMessages(res.data.messages);
+      }
+    }
+  };
 
   const checkMessage = (msg) => {
     return !(msg === "" || msg.length > 140);
@@ -72,15 +82,17 @@ const MsgModal = ({ uid, msgUid, closeModal, userStore }) => {
         {icons.close}
       </TouchableOpacity>
       {userStore[msgUid] ? (
-        <Frame style={styles.msgSection}>
+        <Frame style={styles.msgContainer}>
           <Text style={styles.title}>
             {userStore[msgUid].firstName + " " + userStore[msgUid].lastName}
           </Text>
-          {msgLines.length === 0 ? (
-            <Text style={{ margin: "auto" }}>No Messages Sent</Text>
-          ) : (
-            msgLines
-          )}
+          <Frame style={styles.msgSection}>
+            {msgLines.length === 0 ? (
+              <Text style={{ margin: "auto" }}>No Messages Sent</Text>
+            ) : (
+              msgLines
+            )}
+          </Frame>
         </Frame>
       ) : (
         <></>

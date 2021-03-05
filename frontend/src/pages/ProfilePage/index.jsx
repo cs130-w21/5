@@ -33,6 +33,7 @@ const ProfilePage = ({
       window.alert(res.errMsg);
     } else {
       const data = res.data;
+      data.uid = match.params.id;
       setProfileInfo(data);
       setUserStore({
         ...userStore,
@@ -107,7 +108,7 @@ const ProfilePage = ({
                 <InfoSection
                   isOwner={isOwner}
                   uid={uid}
-                  targetUid={profileInfo.uid}
+                  targetUid={targetUid}
                   profileUrl={profileInfo.profileUrl}
                   setProfileUrl={setProfileUrl}
                   firstName={profileInfo.firstName}
