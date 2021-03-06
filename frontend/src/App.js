@@ -57,8 +57,6 @@ function App() {
     }
   }, [uid]);
 
-  console.log(userStore);
-
   const removeNotification = (notificationID) => {
     let newNotifications = [...notifications];
     newNotifications = newNotifications.filter(
