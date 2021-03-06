@@ -87,7 +87,7 @@ When trigger build is pressed, this should lead you to a popup that looks like:
 
 ![start_build](images/popup.png)
 
-Press "Trigger Custom Build" to begin the manually created build process
+Press "Trigger Custom Build" to begin the manually created build process.
 
 Also located at the [bruintutor Travis CI page](https://travis-ci.com/github/cs130-w21/bruintutor) is the history of builds
 from all the PR requests created in this project. This will give an idea of how the CI process has developed.
